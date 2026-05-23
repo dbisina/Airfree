@@ -145,19 +145,14 @@ export function HeroSlider() {
       <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/60 to-navy/30" />
 
       {/* HUD overlays */}
-      <div className="absolute top-[6.5rem] left-6 sm:left-8 md:left-16 lg:left-24 z-20 hidden sm:block">
-        <span className="font-mono text-[0.58rem] tracking-[0.14em] uppercase text-white/45 select-none">
-          AIRFREE GEOSPATIAL PTY LTD &nbsp;|&nbsp; ABN - 698093239 &nbsp;|&nbsp; AUSTRALIA
-        </span>
-      </div>
-
+      
       <div className="absolute top-[6.5rem] right-6 sm:right-8 md:right-16 lg:right-24 z-20 text-right font-mono text-[0.58rem] tracking-[0.14em] uppercase text-white/45 select-none leading-relaxed">
         {formatCoords()}
       </div>
 
       <div className="absolute bottom-[2.5rem] left-6 sm:left-8 md:left-16 lg:left-24 z-20 hidden lg:block">
         <span className="font-mono text-[0.58rem] tracking-[0.14em] uppercase text-white/45 select-none">
-          REF: AGP-ENT-CAP &nbsp;|&nbsp; SPATIAL INTELLIGENCE DIVISION &nbsp;|&nbsp; ENTERPRISE GEOSPATIAL
+          AIRFREE GEOSPATIAL PTY LTD &nbsp;|&nbsp; ABN - 698093239 &nbsp;|&nbsp; AUSTRALIA
         </span>
       </div>
 
@@ -217,12 +212,28 @@ export function HeroSlider() {
               {slide.cta_primary}
             </Button>
             <Button
-              href="/contact"
-              variant="ghost"
-              className="max-[479px]:text-[0.5rem] max-[479px]:tracking-[0.06em] max-[479px]:px-4 max-[479px]:py-2.5"
-            >
-              {slide.cta_secondary}
-            </Button>
+  href="/contact"
+  variant="ghost"
+  className="max-[479px]:text-[0.5rem] max-[479px]:tracking-[0.06em] max-[479px]:px-4 max-[479px]:py-2.5 group flex items-center gap-2"
+>
+  <span>{slide.cta_secondary}</span>
+
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill="none"
+    className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+  >
+    <path
+      d="M2 10L10 2M10 2H3.5M10 2V8.5"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+</Button>
           </motion.div>
         </div>
       </div>
@@ -244,12 +255,7 @@ export function HeroSlider() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-        <span className="font-mono text-[0.5rem] tracking-[0.28em] uppercase text-white/30">
-          Scroll
-        </span>
-        <div className="w-px h-10 bg-gradient-to-b from-white/30 to-transparent" />
-      </div>
+      
     </section>
   );
 }

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { SERVICES } from '@/lib/constants';
 import { useCMS } from '@/lib/useCMS';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -16,8 +17,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
           {/* Brand */}
           <div>
-            <Image src="/images/logo.png" alt={company.name} width={140} height={40} className="h-9 w-auto object-contain mb-4 brightness-0 invert" />
-            <p className="text-sm leading-relaxed mb-4 text-white/50">
+            <Image src="/images/airfreelogo.png" alt={company.name} width={140} height={40} className="h-9 w-auto object-contain mb-4 brightness-0 invert" />
+            <p className="mb-4 font-mono text-[0.56rem] tracking-widest uppercase text-white/20">
+            {footerContent.brand_tagline}
+          </p>
+            <p className="text-sm leading-relaxed mb-4  text-white/50">
               {footerContent.description}
             </p>
             <p className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-white/30">
@@ -74,9 +78,43 @@ export default function Footer() {
           <p className="text-xs text-white/30">
             © {year} {footerContent.copyright_entity}. All rights reserved.
           </p>
-          <p className="font-mono text-[0.56rem] tracking-widest uppercase text-white/20">
-            {footerContent.brand_tagline}
-          </p>
+          
+          <div className="flex items-center gap-4">
+            <a
+              href="#"
+              className="text-ink-3 hover:text-brand-blue transition-colors"
+            >
+              <FaLinkedin size={18} />
+            </a>
+
+            <a
+              href="#"
+              className="text-ink-3 hover:text-brand-blue transition-colors"
+            >
+              <FaTwitter size={18} />
+            </a>
+
+            <a
+              href="#"
+              className="text-ink-3 hover:text-brand-blue transition-colors"
+            >
+              <FaFacebook size={18} />
+            </a>
+
+            <a
+              href="#"
+              className="text-ink-3 hover:text-brand-blue transition-colors"
+            >
+              <FaInstagram size={18} />
+            </a>
+
+            <a
+              href="#"
+              className="text-ink-3 hover:text-brand-blue transition-colors"
+            >
+              <FaYoutube size={18} />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

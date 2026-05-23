@@ -5,13 +5,89 @@ export const SITE_PHONE = '+61 (0) XXX XXX XXX';
 export const SITE_TAGLINE = 'Enterprise Spatial Intelligence & Infrastructure Analytics';
 
 export const SERVICES = [
-  { slug: 'gis-spatial', number: '01', title: 'Enterprise GIS & Spatial Infrastructure Systems', shortTitle: 'GIS & Spatial Infrastructure', description: 'Design, deployment and management of enterprise-grade spatial data infrastructure. PostGIS database architecture, GIS server deployment, and end-to-end spatial data lifecycle management.', tags: ['PostGIS', 'GeoServer', 'SDI Frameworks', 'ArcGIS Server', 'INSPIRE'] },
-  { slug: 'digital-mapping', number: '02', title: 'Digital Mapping & Web GIS Platforms', shortTitle: 'Digital Mapping & Web GIS', description: 'Development and deployment of interactive web-based GIS platforms and geospatial dashboards for institutional decision-support environments.', tags: ['Leaflet.js', 'OpenLayers', 'ArcGIS Online', 'MapBox GL', 'GeoNode'] },
-  { slug: 'drone-photogrammetry', number: '03', title: 'Drone, Photogrammetry & 3D Spatial Engineering', shortTitle: 'Drone & Photogrammetry', description: 'End-to-end UAV survey operations and photogrammetric processing workflows. Point cloud generation, 3D mesh modelling, and volumetric analysis.', tags: ['Agisoft Metashape', 'Pix4D', 'DJI Terra', 'CloudCompare', 'LiDAR'] },
-  { slug: 'remote-sensing', number: '04', title: 'Remote Sensing & Satellite Analytics', shortTitle: 'Remote Sensing & AI', description: 'Satellite imagery analysis, multispectral classification, change detection, and ML-driven land analysis across large geographic extents.', tags: ['ENVI', 'Google Earth Engine', 'Sentinel Hub', 'GDAL', 'Python'] },
-  { slug: 'infrastructure-utility', number: '05', title: 'Infrastructure & Utility Spatial Systems', shortTitle: 'Infrastructure & Utilities', description: 'Geospatial systems for utility networks, asset registers, and infrastructure planning. Network tracing and maintenance GIS for water, gas, and electricity operators.', tags: ['Esri Utility Network', 'OpenStreetMap', 'QGIS', 'Network Analysis', 'AM/FM'] },
-  { slug: 'survey-data', number: '06', title: 'Survey Data QA/QC & Spatial Standards', shortTitle: 'Survey Data & QA/QC', description: 'Quality assurance and standards compliance for surveyed spatial data. ISO 19100, ICSM, and ANZLIC-aligned data validation and metadata management.', tags: ['ICSM', 'ISO 19100', 'FME', 'QGIS', 'Python'] },
-  { slug: 'environmental', number: '07', title: 'Environmental & Ecological Geospatial Analytics', shortTitle: 'Environmental Intelligence', description: 'Spatial analytics for environmental monitoring, ecological mapping, and carbon accounting across regulated and natural environments.', tags: ['Google Earth Engine', 'ENVI', 'TerrSet', 'ArcGIS Pro', 'Python'] },
+  {
+    image: 'Images/gisinfra.jpg',
+    slug: "gis-spatial",
+    number: "01",
+    title: "Enterprise GIS & Spatial Infrastructure Systems",
+    shortTitle: "GIS Infrastructure",
+    description:
+      "Design and deployment of enterprise-grade GIS infrastructure including PostGIS architecture, spatial databases, and scalable geospatial systems for organizations.",
+    tags: ["PostGIS", "GeoServer", "SDI", "ArcGIS Server", "INSPIRE"],
+    
+  },
+
+  {
+    image: 'Images/digitalmap.png',
+    slug: "digital-mapping",
+    number: "02",
+    title: "Digital Mapping & Web GIS Platforms",
+    shortTitle: "Web GIS Platforms",
+    description:
+      "Interactive web-based GIS platforms and dashboards for real-time spatial visualization, decision-making, and data exploration.",
+    tags: ["Leaflet.js", "OpenLayers", "Mapbox", "ArcGIS Online", "GeoNode"],
+   
+  },
+
+  {
+    image: 'Images/dronemap.png',
+    slug: "drone-photogrammetry",
+    number: "03",
+    title: "Drone, Photogrammetry & 3D Spatial Engineering",
+    shortTitle: "Drone & 3D Mapping",
+    description:
+      "UAV surveying, photogrammetry, LiDAR processing, 3D modeling, and volumetric analysis for engineering and terrain reconstruction.",
+    tags: ["Pix4D", "Agisoft", "DJI Terra", "LiDAR", "CloudCompare"],
+    
+  },
+
+  {
+    image: 'Images/gisinfra.jpg',
+    slug: "remote-sensing",
+    number: "04",
+    title: "Remote Sensing & Satellite Analytics",
+    shortTitle: "Satellite Analytics",
+    description:
+      "Satellite image processing, land use classification, change detection, and AI-driven earth observation analytics at scale.",
+    tags: ["Google Earth Engine", "Sentinel Hub", "ENVI", "GDAL", "Python"],
+    
+  },
+
+  {
+    image: 'Images/gisinfra.jpg',
+    slug: "infrastructure-utility",
+    number: "05",
+    title: "Infrastructure & Utility Spatial Systems",
+    shortTitle: "Utility GIS Systems",
+    description:
+      "GIS solutions for utility networks, asset management, and infrastructure planning for water, gas, power, and transport systems.",
+    tags: ["Network Analysis", "ArcGIS Utility Network", "QGIS", "AM/FM", "OSM"],
+    
+  },
+
+  {
+    image: 'Images/gisinfra.jpg',
+    slug: "survey-data",
+    number: "06",
+    title: "Survey Data QA/QC & Spatial Standards",
+    shortTitle: "Data QA/QC",
+    description:
+      "Quality control, validation, and compliance of spatial datasets aligned with ISO 19100 and international geospatial standards.",
+    tags: ["ISO 19100", "FME", "QGIS", "Metadata", "Python"],
+    
+  },
+
+  {
+    image: 'Images/gisinfra.jpg',
+    slug: "environmental",
+    number: "07",
+    title: "Environmental & Ecological Geospatial Analytics",
+    shortTitle: "Environmental GIS",
+    description:
+      "Environmental monitoring, ecological mapping, carbon tracking, and sustainability-focused spatial analytics for natural systems.",
+    tags: ["Google Earth Engine", "ENVI", "TerrSet", "ArcGIS Pro", "Python"],
+   
+  },
 ];
 
 export const LOCATIONS = [

@@ -78,21 +78,21 @@ export default function Nav() {
   return (
     <>
       <nav
-        className={`fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-6xl z-50 rounded-[4px] border transition-all duration-700 ${
+        className={`fixed top-2 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-6xl z-50 rounded-sm border transition-all duration-700 ${
           transparent
-            ? 'bg-navy/15 border-white/[0.08] backdrop-blur-md shadow-none'
-            : 'bg-white/[0.9] border-black/[0.05] backdrop-blur-md shadow-[0_8px_32px_rgba(10,22,40,0.06)]'
+            ? 'bg-navy/15 border-white/8 backdrop-blur-md shadow-none'
+            : 'bg-white/90 border-black/5 backdrop-blur-md shadow-[0_8px_32px_rgba(10,22,40,0.06)]'
         }`}
       >
         <div className="flex items-center justify-between h-14 px-1.5 sm:px-3 md:px-5">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <Image
-              src="/images/logo.png"
+              src="/images/airfreelogo.png"
               alt="Airfree Geospatial"
-              width={150}
-              height={44}
-              className={`max-w-[110px] h-8 w-auto object-contain transition-all duration-700 ${transparent ? 'brightness-0 invert' : ''}`}
+              width={90}
+              height={60}
+              className={`max-w-27.5 h-8 w-auto object-contain transition-all duration-700 ${transparent ? 'brightness-0 invert' : ''}`}
             />
           </Link>
 
@@ -123,7 +123,7 @@ export default function Nav() {
                           <Link
                             key={child.href}
                             href={child.href}
-                            className={`block px-4 py-2 text-xs rounded-[2px] transition-colors ${
+                            className={`block px-4 py-2 text-xs rounded-xl transition-colors ${
                               pathname === child.href ? 'text-brand-blue bg-surface' : 'text-ink-2 hover:text-ink hover:bg-surface'
                             }`}
                           >
@@ -148,7 +148,7 @@ export default function Nav() {
           <div className="flex items-center gap-4">
             <Link
               href="/contact"
-              className={`hidden md:inline-flex items-center px-5.5 py-1.5 text-[0.65rem] font-nav font-bold tracking-[0.16em] uppercase rounded-[2px] border transition-all duration-300 ${
+              className={`hidden md:inline-flex items-center px-6 py-2.5 text-[0.65rem] font-nav font-bold tracking-[0.16em] uppercase rounded-xs border transition-all duration-300 ${
                 transparent
                   ? 'border-white/30 bg-white/5 text-white hover:bg-white hover:text-navy'
                   : 'border-brand-blue bg-brand-blue text-white hover:bg-[#3a72a0] hover:border-[#3a72a0]'
