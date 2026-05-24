@@ -12,11 +12,13 @@ interface Props {
   subtitle?: string;
   breadcrumb?: { label: string; href: string };
   imageKey?: PageImageKey;
+  /** Direct image path/URL — takes priority over imageKey CMS lookup */
+  imageUrl?: string;
 }
 
-export function PageHero({ label, title, subtitle, breadcrumb, imageKey }: Props) {
+export function PageHero({ label, title, subtitle, breadcrumb, imageKey, imageUrl }: Props) {
   const cms = useCMS();
-  const imageSrc = imageKey ? (cms.page_photos[imageKey] || null) : null;
+  const imageSrc = imageUrl || (imageKey ? (cms.page_photos[imageKey] || null) : null);
 
   return (
     <section className="relative pt-28 pb-16 px-4 sm:px-8 md:px-10 lg:px-24 overflow-hidden">

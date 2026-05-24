@@ -1,76 +1,24 @@
-import type { Metadata } from 'next';
+'use client';
+
+import Image from 'next/image';
 import { PageHero } from '@/components/sections/PageHero';
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
-
-export const metadata: Metadata = {
-  title: 'Projects | Airfree Geospatial',
-  description: 'Selected project work including government spatial data infrastructure, utility network digitisation, UAV photogrammetry campaigns, and vegetation monitoring across Australia.',
-};
-
-const PROJECT_CARDS = [
-  {
-    category: 'GIS INFRASTRUCTURE',
-    title: 'Government Spatial Data Infrastructure Implementation',
-    scope: 'Federal / State Government',
-    description:
-      'End-to-end SDI design and deployment for a government agency managing large-scale land and infrastructure assets. Deliverables included PostGIS spatial database, GeoServer OGC service layer, and metadata catalogue integration.',
-    outcomes: [
-      'PostGIS enterprise spatial database',
-      'OGC-compliant WMS/WFS services',
-      'Multi-agency data sharing framework',
-      'ISO 19100 metadata compliance',
-    ],
-  },
-  {
-    category: 'UTILITY NETWORK',
-    title: 'Underground Utility Network Digitisation & Asset Register',
-    scope: 'Regulated Utility Operator',
-    description:
-      'Digitisation and attribute enrichment of an underground utility network for a regulated infrastructure operator. Over 12,000 linear and point assets captured, validated against survey records, and integrated with the enterprise asset management system.',
-    outcomes: [
-      '12,000+ assets digitised & attributed',
-      'ICSM-standard QA/QC validation',
-      'Enterprise AM system integration',
-      'Regulatory reporting dataset produced',
-    ],
-  },
-  {
-    category: 'PHOTOGRAMMETRY',
-    title: 'UAV Photogrammetry Campaign — Construction Site Volumetrics',
-    scope: 'Civil Contractor',
-    description:
-      'Multi-flight UAV photogrammetry campaign across an active construction site. Ground control established with RTK GNSS. Deliverables included 5cm GSD orthomosaic, classified point cloud, and DSM/DTM for earthworks volume calculation.',
-    outcomes: [
-      '5 cm GSD orthomosaic',
-      'Classified LAS point cloud',
-      'DSM & DTM generation',
-      'Earthworks volume certificates',
-    ],
-  },
-  {
-    category: 'REMOTE SENSING',
-    title: 'Vegetation Change Detection — Environmental Monitoring',
-    scope: 'Environmental Management Authority',
-    description:
-      'Multi-temporal Sentinel-2 analysis over a 50,000+ hectare management area. Change detection analysis identified clearing events, regrowth zones, and vegetation condition trends over a 5-year period for regulatory reporting.',
-    outcomes: [
-      '50,000+ ha monitored area',
-      'Sentinel-2 5-year time-series',
-      'Clearing event detection',
-      'Annual condition trend report',
-    ],
-  },
-];
+import { useCMS } from '@/lib/useCMS';
+import { CMS_DEFAULTS } from '@/lib/cms-store';
 
 export default function ProjectsPage() {
+  const cms = useCMS();
+  const pageContent = cms.page_content?.projects ?? CMS_DEFAULTS.page_content.projects;
+  const projects = cms.projects?.length ? cms.projects : CMS_DEFAULTS.projects;
+
   return (
     <>
       <PageHero
-        label="Project Portfolio"
-        title="Selected Engagements"
-        subtitle="A summary of representative project types. Specific engagements are managed under client confidentiality."
+        label={pageContent.label}
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
         imageKey="projects"
       />
 
@@ -90,50 +38,86 @@ export default function ProjectsPage() {
             <SectionLabel className="mb-10">Representative Projects</SectionLabel>
           </RevealOnScroll>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PROJECT_CARDS.map((project, i) => (
-              <RevealOnScroll key={project.title} delay={i * 0.08}>
-                <div className="border border-border-s p-8 bg-white hover:bg-surface transition-colors duration-200 h-full flex flex-col">
-                  {/* Category badge */}
-                  <div
-                    className="font-mono tracking-widest uppercase text-ink-3 mb-3"
-                    style={{ fontSize: '0.55rem' }}
-                  >
-                    {project.category}
-                  </div>
+            {projects.map((project, i) => {
+              const outcomes = project.outcomes
+                .split('\n')
+                .map(o => o.trim())
+                .filter(Boolean);
+              return (
+                <RevealOnScroll key={project.id} delay={i * 0.08}>
+                  <div className="border border-border-s bg-white hover:bg-surface transition-colors duration-200 h-full flex flex-col overflow-hidden">
+                    {/* Optional project photo */}
+                    {project.image && (
+                      <div className="relative h-44 overflow-hidden">
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1023px) 100vw, 50vw"
+                        />
+                        <div className="absolute inset-0 bg-navy/30" />
+                      </div>
+                    )}
 
-                  {/* Title */}
-                  <h3
-                    className="font-serif font-semibold text-navy mb-2 leading-snug"
-                    style={{ fontSize: '1.1rem' }}
-                  >
-                    {project.title}
-                  </h3>
-
-                  {/* Scope */}
-                  <div className="text-ink-3 italic mb-4" style={{ fontSize: '0.8rem' }}>
-                    {project.scope}
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-ink-2 leading-relaxed mb-5 flex-1" style={{ fontSize: '0.875rem' }}>
-                    {project.description}
-                  </p>
-
-                  {/* Outcomes */}
-                  <ul className="space-y-1.5">
-                    {project.outcomes.map((outcome) => (
-                      <li
-                        key={outcome}
-                        className="font-mono text-ink-3"
-                        style={{ fontSize: '0.65rem' }}
+                    <div className="p-8 flex flex-col flex-1">
+                      {/* Category badge */}
+                      <div
+                        className="font-mono tracking-widest uppercase text-ink-3 mb-3"
+                        style={{ fontSize: '0.55rem' }}
                       >
-                        &rarr; {outcome}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </RevealOnScroll>
-            ))}
+                        {project.category}
+                      </div>
+
+                      {/* Title */}
+                      <h3
+                        className="font-serif font-semibold text-navy mb-2 leading-snug"
+                        style={{ fontSize: '1.1rem' }}
+                      >
+                        {project.title}
+                      </h3>
+
+                      {/* Meta row */}
+                      <div className="flex items-center gap-4 mb-4">
+                        <span className="text-ink-3 italic" style={{ fontSize: '0.8rem' }}>{project.scope}</span>
+                        {project.year && (
+                          <>
+                            <span className="text-ink-3/40">·</span>
+                            <span className="font-mono text-ink-3" style={{ fontSize: '0.65rem' }}>{project.year}</span>
+                          </>
+                        )}
+                        {project.location && (
+                          <>
+                            <span className="text-ink-3/40">·</span>
+                            <span className="text-ink-3" style={{ fontSize: '0.75rem' }}>{project.location}</span>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-ink-2 leading-relaxed mb-5 flex-1" style={{ fontSize: '0.875rem' }}>
+                        {project.description}
+                      </p>
+
+                      {/* Outcomes */}
+                      {outcomes.length > 0 && (
+                        <ul className="space-y-1.5">
+                          {outcomes.map((outcome) => (
+                            <li
+                              key={outcome}
+                              className="font-mono text-ink-3"
+                              style={{ fontSize: '0.65rem' }}
+                            >
+                              &rarr; {outcome}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                </RevealOnScroll>
+              );
+            })}
           </div>
         </div>
       </section>

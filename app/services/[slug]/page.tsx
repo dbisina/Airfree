@@ -4,6 +4,7 @@ import { PageHero } from '@/components/sections/PageHero';
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
+import { SERVICES as BASE_SERVICES } from '@/lib/constants';
 
 const SERVICES = [
   {
@@ -392,6 +393,7 @@ export default async function ServiceDetailPage({
   const { slug } = await params;
   const service = SERVICES.find((s) => s.slug === slug);
   const detail = SERVICE_DETAILS[slug];
+  const serviceImage = BASE_SERVICES.find((s) => s.slug === slug)?.image;
 
   if (!service || !detail) notFound();
 
@@ -402,6 +404,7 @@ export default async function ServiceDetailPage({
         title={service.title}
         subtitle={service.description}
         breadcrumb={{ label: 'Services', href: '/services' }}
+        imageUrl={serviceImage}
         imageKey="services"
       />
 

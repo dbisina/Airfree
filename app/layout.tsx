@@ -39,6 +39,9 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Airfree Geospatial | Spatial Data & Survey Services",
   description: "Geospatial consultancy providing spatial data infrastructure, UAV photogrammetry, remote sensing, and GIS services to government agencies and infrastructure operators across Australia.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -30,6 +30,56 @@ interface CMSLocation {
   address_line3: string;
 }
 
+interface CMSService {
+  id: string;
+  slug: string;
+  number: string;
+  title: string;
+  shortTitle: string;
+  description: string;
+  image: string;
+  tags: string;
+  overview: string;
+}
+
+interface CMSProject {
+  id: string;
+  title: string;
+  category: string;
+  scope: string;
+  year: string;
+  location: string;
+  image: string;
+  description: string;
+  outcomes: string;
+  featured: boolean;
+}
+
+interface CMSWMSLayer {
+  id: string;
+  name: string;
+  url: string;
+  layers: string;
+  format: string;
+  transparent: boolean;
+  attribution: string;
+  visible: boolean;
+  opacity: number;
+  description: string;
+}
+
+interface CMSPageEntry {
+  label: string;
+  title: string;
+  subtitle: string;
+}
+
+interface CMSSection {
+  id: string;
+  label: string;
+  enabled: boolean;
+}
+
 interface CMSContent {
   company: {
     name: string;
@@ -50,6 +100,16 @@ interface CMSContent {
     products: string;
     projects: string;
     technology: string;
+  };
+  page_content: {
+    home: CMSPageEntry;
+    about: CMSPageEntry;
+    services: CMSPageEntry;
+    contact: CMSPageEntry;
+    industries: CMSPageEntry;
+    products: CMSPageEntry;
+    projects: CMSPageEntry;
+    technology: CMSPageEntry;
   };
   about_intro: {
     heading: string;
@@ -78,6 +138,19 @@ interface CMSContent {
     nav_size: number;
     button_size: number;
     label_size: number;
+  };
+  services: CMSService[];
+  projects: CMSProject[];
+  wms_layers: CMSWMSLayer[];
+  page_sections: {
+    home: CMSSection[];
+    about: CMSSection[];
+    services: CMSSection[];
+    contact: CMSSection[];
+    industries: CMSSection[];
+    projects: CMSSection[];
+    products: CMSSection[];
+    technology: CMSSection[];
   };
 }
 
@@ -187,6 +260,50 @@ const DEFAULTS: CMSContent = {
     nav_size: 100,
     button_size: 100,
     label_size: 100,
+  },
+  page_content: {
+    home:       { label: 'Enterprise Spatial Intelligence', title: 'Airfree Geospatial', subtitle: 'Delivering mission-critical geospatial solutions across Australia.' },
+    about:      { label: 'About the Practice', title: 'Enterprise Geospatial Intelligence', subtitle: 'A specialised consultancy serving government, utilities, and large-scale engineering operations across Australia.' },
+    services:   { label: 'Service Portfolio', title: 'Enterprise Geospatial Services', subtitle: 'Seven specialised service domains covering the full spectrum of spatial intelligence.' },
+    contact:    { label: 'Get in Touch', title: 'Contact the Team', subtitle: 'Project enquiries, panel opportunities, and capability statement requests are welcome.' },
+    industries: { label: 'Sectors We Serve', title: 'Industries & Sectors', subtitle: 'Built for organisations where precision, compliance, and spatial accuracy are non-negotiable.' },
+    products:   { label: 'Software & Products', title: 'Geospatial Products', subtitle: 'Purpose-built software platforms and spatial data products for enterprise deployments.' },
+    projects:   { label: 'Project Portfolio', title: 'Selected Engagements', subtitle: 'A summary of representative project types managed under client confidentiality.' },
+    technology: { label: 'Technology Stack', title: 'Our Technology', subtitle: 'Enterprise-grade spatial technology platforms, standards, and software environments.' },
+  },
+  services: [
+    { id: 'svc-01', slug: 'gis-spatial', number: '01', title: 'Enterprise GIS & Spatial Infrastructure Systems', shortTitle: 'GIS & Spatial Infrastructure', description: 'Design, deployment and management of enterprise-grade spatial data infrastructure.', image: '/images/gisinfra.jpg', tags: 'PostGIS, GeoServer, SDI Frameworks, ArcGIS Server, INSPIRE', overview: '' },
+    { id: 'svc-02', slug: 'digital-mapping', number: '02', title: 'Digital Mapping & Web GIS Platforms', shortTitle: 'Digital Mapping & Web GIS', description: 'Development and deployment of interactive web-based GIS platforms and geospatial dashboards.', image: '/images/digitalmap.png', tags: 'Leaflet.js, OpenLayers, ArcGIS Online, MapBox GL, GeoNode', overview: '' },
+    { id: 'svc-03', slug: 'drone-photogrammetry', number: '03', title: 'Drone, Photogrammetry & 3D Spatial Engineering', shortTitle: 'Drone & Photogrammetry', description: 'End-to-end UAV survey operations and photogrammetric processing workflows.', image: '/images/dronemap.png', tags: 'Agisoft Metashape, Pix4D, DJI Terra, CloudCompare, LiDAR', overview: '' },
+    { id: 'svc-04', slug: 'remote-sensing', number: '04', title: 'Remote Sensing & Satellite Analytics', shortTitle: 'Remote Sensing & AI', description: 'Satellite imagery analysis, multispectral classification, change detection, and ML-driven land analysis.', image: '/images/digitalmap.png', tags: 'ENVI, Google Earth Engine, Sentinel Hub, GDAL, Python', overview: '' },
+    { id: 'svc-05', slug: 'infrastructure-utility', number: '05', title: 'Infrastructure & Utility Spatial Systems', shortTitle: 'Infrastructure & Utilities', description: 'Geospatial systems for utility networks, asset registers, and infrastructure planning.', image: '/images/gisinfra.jpg', tags: 'Esri Utility Network, OpenStreetMap, QGIS, Network Analysis, AM/FM', overview: '' },
+    { id: 'svc-06', slug: 'survey-data', number: '06', title: 'Survey Data QA/QC & Spatial Standards', shortTitle: 'Survey Data & QA/QC', description: 'Quality assurance and standards compliance for surveyed spatial data.', image: '/images/gisinfra.jpg', tags: 'ICSM, ISO 19100, FME, QGIS, Python', overview: '' },
+    { id: 'svc-07', slug: 'environmental', number: '07', title: 'Environmental & Ecological Geospatial Analytics', shortTitle: 'Environmental Intelligence', description: 'Spatial analytics for environmental monitoring, ecological mapping, and carbon accounting.', image: '/images/dronemap.png', tags: 'Google Earth Engine, ENVI, TerrSet, ArcGIS Pro, Python', overview: '' },
+  ],
+  projects: [
+    { id: 'prj-01', title: 'Government Spatial Data Infrastructure Implementation', category: 'GIS INFRASTRUCTURE', scope: 'Federal / State Government', year: '2024', location: 'Adelaide, SA', image: '', description: 'End-to-end SDI design and deployment for a government agency managing large-scale land and infrastructure assets.', outcomes: 'PostGIS enterprise spatial database\nOGC-compliant WMS/WFS services\nMulti-agency data sharing framework\nISO 19100 metadata compliance', featured: true },
+    { id: 'prj-02', title: 'Underground Utility Network Digitisation & Asset Register', category: 'UTILITY NETWORK', scope: 'Regulated Utility Operator', year: '2024', location: 'Perth, WA', image: '', description: 'Digitisation and attribute enrichment of an underground utility network for a regulated infrastructure operator. Over 12,000 assets captured and validated.', outcomes: '12,000+ assets digitised & attributed\nICSM-standard QA/QC validation\nEnterprise AM system integration\nRegulatory reporting dataset produced', featured: true },
+    { id: 'prj-03', title: 'UAV Photogrammetry Campaign — Construction Site Volumetrics', category: 'PHOTOGRAMMETRY', scope: 'Civil Contractor', year: '2023', location: 'Melbourne, VIC', image: '', description: 'Multi-flight UAV photogrammetry campaign across an active construction site with RTK GNSS ground control.', outcomes: '5 cm GSD orthomosaic\nClassified LAS point cloud\nDSM & DTM generation\nEarthworks volume certificates', featured: true },
+    { id: 'prj-04', title: 'Vegetation Change Detection — Environmental Monitoring', category: 'REMOTE SENSING', scope: 'Environmental Management Authority', year: '2023', location: 'Adelaide, SA', image: '', description: 'Multi-temporal Sentinel-2 analysis over a 50,000+ hectare management area with 5-year change detection.', outcomes: '50,000+ ha monitored area\nSentinel-2 5-year time-series\nClearing event detection\nAnnual condition trend report', featured: true },
+  ],
+  wms_layers: [],
+  page_sections: {
+    home: [
+      { id: 'hero',             label: 'Hero Slider',       enabled: true },
+      { id: 'capability-strip', label: 'Capability Strip',  enabled: true },
+      { id: 'photo-strip',      label: 'Photo Strip',       enabled: true },
+      { id: 'services',         label: 'Service Pillars',   enabled: true },
+      { id: 'about',            label: 'About Section',     enabled: true },
+      { id: 'industries',       label: 'Industries Teaser', enabled: true },
+      { id: 'cta',              label: 'Contact CTA',       enabled: true },
+    ],
+    about:      [{ id: 'hero', label: 'Page Hero', enabled: true }, { id: 'mission', label: 'Mission', enabled: true }, { id: 'principles', label: 'Core Principles', enabled: true }, { id: 'sectors', label: 'Sectors', enabled: true }, { id: 'cta', label: 'Contact CTA', enabled: true }],
+    services:   [{ id: 'hero', label: 'Page Hero', enabled: true }, { id: 'list', label: 'Service List', enabled: true }, { id: 'cta', label: 'Footer CTA', enabled: true }],
+    contact:    [{ id: 'hero', label: 'Page Hero', enabled: true }, { id: 'form', label: 'Contact Form', enabled: true }],
+    industries: [{ id: 'hero', label: 'Page Hero', enabled: true }, { id: 'sectors', label: 'Sectors Grid', enabled: true }, { id: 'cta', label: 'Contact CTA', enabled: true }],
+    projects:   [{ id: 'hero', label: 'Page Hero', enabled: true }, { id: 'disclaimer', label: 'Disclaimer', enabled: true }, { id: 'grid', label: 'Project Cards', enabled: true }, { id: 'cta', label: 'Procurement CTA', enabled: true }],
+    products:   [{ id: 'hero', label: 'Page Hero', enabled: true }, { id: 'grid', label: 'Products Grid', enabled: true }],
+    technology: [{ id: 'hero', label: 'Page Hero', enabled: true }, { id: 'stack', label: 'Technology Stack', enabled: true }],
   },
 };
 
@@ -1031,13 +1148,379 @@ function TypographySection({
 
 // ─── Nav config ───────────────────────────────────────────────────────────────
 
+// ─── Section: Page Builder ───────────────────────────────────────────────────
+
+const PAGE_KEYS: Array<{ key: keyof CMSContent['page_sections']; label: string; url: string }> = [
+  { key: 'home',       label: 'Home',        url: '/' },
+  { key: 'about',      label: 'About',       url: '/about' },
+  { key: 'services',   label: 'Services',    url: '/services' },
+  { key: 'contact',    label: 'Contact',     url: '/contact' },
+  { key: 'industries', label: 'Industries',  url: '/industries' },
+  { key: 'projects',   label: 'Projects',    url: '/projects' },
+  { key: 'products',   label: 'Products',    url: '/products' },
+  { key: 'technology', label: 'Technology',  url: '/technology' },
+];
+
+function PageBuilderSection({
+  content,
+  reorderSections,
+  toggleSection,
+}: {
+  content: CMSContent;
+  reorderSections: (page: keyof CMSContent['page_sections'], fromIdx: number, toIdx: number) => void;
+  toggleSection: (page: keyof CMSContent['page_sections'], id: string) => void;
+}) {
+  const [activePage, setActivePage] = useState<keyof CMSContent['page_sections']>('home');
+  const [dragIdx, setDragIdx] = useState<number | null>(null);
+  const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
+
+  const sections = content.page_sections[activePage] ?? [];
+
+  const handleDrop = (toIdx: number) => {
+    if (dragIdx === null || dragIdx === toIdx) return;
+    reorderSections(activePage, dragIdx, toIdx);
+    setDragIdx(null);
+    setDragOverIdx(null);
+  };
+
+  return (
+    <>
+      <SectionHeading
+        title="Page Builder"
+        description="Drag sections to reorder them on each page. Toggle visibility to hide without deleting. Changes apply live after saving."
+      />
+
+      {/* Page selector */}
+      <div className="flex flex-wrap gap-1.5 mb-6">
+        {PAGE_KEYS.map(p => (
+          <button
+            key={p.key}
+            onClick={() => setActivePage(p.key)}
+            className={`px-3 py-1.5 text-[0.65rem] font-mono tracking-widest uppercase border transition-colors ${
+              activePage === p.key
+                ? 'bg-[#4A86B8] border-[#4A86B8] text-white'
+                : 'border-black/[0.08] text-black/50 hover:text-black/80 hover:border-black/20'
+            }`}
+          >
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Preview link */}
+      <div className="flex items-center gap-2 mb-5">
+        <span className="font-mono text-[0.55rem] tracking-widest uppercase text-black/30">
+          Editing:
+        </span>
+        <a
+          href={PAGE_KEYS.find(p => p.key === activePage)?.url}
+          target="_blank"
+          rel="noreferrer"
+          className="font-mono text-[0.6rem] text-[#4A86B8] hover:text-[#3a72a0] transition-colors"
+        >
+          {PAGE_KEYS.find(p => p.key === activePage)?.url} ↗
+        </a>
+      </div>
+
+      {/* Section list */}
+      <div className="space-y-1.5">
+        {sections.map((section, i) => (
+          <div
+            key={section.id}
+            draggable
+            onDragStart={() => setDragIdx(i)}
+            onDragOver={e => { e.preventDefault(); setDragOverIdx(i); }}
+            onDrop={() => handleDrop(i)}
+            onDragEnd={() => { setDragIdx(null); setDragOverIdx(null); }}
+            className={`flex items-center gap-3 px-4 py-3 bg-white border cursor-grab active:cursor-grabbing select-none transition-all ${
+              dragOverIdx === i && dragIdx !== i
+                ? 'border-[#4A86B8] bg-[#4A86B8]/[0.03]'
+                : 'border-black/[0.06]'
+            } ${dragIdx === i ? 'opacity-40' : 'opacity-100'}`}
+          >
+            {/* Drag handle */}
+            <span className="text-black/20 hover:text-black/40 transition-colors shrink-0" style={{ fontSize: '1.1rem', lineHeight: 1, letterSpacing: '-2px' }}>
+              ⠿
+            </span>
+
+            {/* Index */}
+            <span className="font-mono text-[0.5rem] text-black/25 w-4 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+
+            {/* Label */}
+            <span className={`flex-1 text-sm transition-colors ${section.enabled ? 'text-black' : 'text-black/30 line-through'}`}>
+              {section.label}
+            </span>
+
+            {/* ID badge */}
+            <span className="font-mono text-[0.5rem] tracking-widest uppercase text-black/20 hidden sm:block">
+              {section.id}
+            </span>
+
+            {/* Toggle */}
+            <button
+              onClick={() => toggleSection(activePage, section.id)}
+              className={`shrink-0 w-8 h-4 rounded-full transition-all duration-300 relative ${section.enabled ? 'bg-[#4A86B8]' : 'bg-black/15'}`}
+              title={section.enabled ? 'Hide section' : 'Show section'}
+            >
+              <span
+                className={`absolute top-0.5 w-3 h-3 rounded-full bg-white shadow-sm transition-all duration-300 ${section.enabled ? 'left-[18px]' : 'left-0.5'}`}
+              />
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-black/30 text-xs">
+        Drag rows to reorder. Toggle the switch to show/hide a section without removing it.
+      </p>
+    </>
+  );
+}
+
+// ─── Section: Services ────────────────────────────────────────────────────────
+
+function ServicesSection({
+  content,
+  addService,
+  removeService,
+  moveService,
+  updateService,
+}: {
+  content: CMSContent;
+  addService: () => void;
+  removeService: (id: string) => void;
+  moveService: (id: string, dir: -1 | 1) => void;
+  updateService: (id: string, key: keyof CMSService, value: string) => void;
+}) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+  return (
+    <>
+      <SectionHeading title="Services" description="Manage service entries shown across the site. Changes propagate to the homepage grid, services listing, and individual service pages." />
+      <div className="space-y-2 mb-5">
+        {content.services.map((svc, i) => (
+          <div key={svc.id} className="border border-black/[0.06] bg-white">
+            <div className="flex items-center gap-3 px-4 py-3">
+              <span className="font-mono text-[0.55rem] text-black/30 w-5">{svc.number || String(i + 1).padStart(2, '0')}</span>
+              <span className="flex-1 text-sm text-black truncate">{svc.title || 'Untitled Service'}</span>
+              <div className="flex items-center gap-1 shrink-0">
+                <button onClick={() => moveService(svc.id, -1)} className="px-1.5 py-0.5 text-black/30 hover:text-black/60 text-xs transition-colors" title="Move up">↑</button>
+                <button onClick={() => moveService(svc.id, 1)}  className="px-1.5 py-0.5 text-black/30 hover:text-black/60 text-xs transition-colors" title="Move down">↓</button>
+                <button onClick={() => setExpanded(e => e === svc.id ? null : svc.id)} className="px-2 py-0.5 text-[0.65rem] border border-black/[0.08] text-black/50 hover:text-black/80 transition-colors">{expanded === svc.id ? 'Close' : 'Edit'}</button>
+                <button onClick={() => removeService(svc.id)} className="px-2 py-0.5 text-[0.65rem] border border-red-200 text-red-400 hover:text-red-600 transition-colors">Remove</button>
+              </div>
+            </div>
+            {expanded === svc.id && (
+              <div className="border-t border-black/[0.06] px-4 py-5 bg-[#FAFAF9] grid grid-cols-1 sm:grid-cols-2 gap-x-5">
+                <Field label="Number" value={svc.number} onChange={v => updateService(svc.id, 'number', v)} placeholder="01" />
+                <Field label="Slug (URL)" value={svc.slug} onChange={v => updateService(svc.id, 'slug', v)} placeholder="gis-spatial" />
+                <div className="sm:col-span-2"><Field label="Title" value={svc.title} onChange={v => updateService(svc.id, 'title', v)} placeholder="Enterprise GIS & Spatial Infrastructure Systems" /></div>
+                <Field label="Short Title" value={svc.shortTitle} onChange={v => updateService(svc.id, 'shortTitle', v)} placeholder="GIS & Spatial Infrastructure" />
+                <Field label="Tags (comma-separated)" value={svc.tags} onChange={v => updateService(svc.id, 'tags', v)} placeholder="PostGIS, GeoServer, ArcGIS" />
+                <div className="sm:col-span-2"><Field label="Description" value={svc.description} onChange={v => updateService(svc.id, 'description', v)} textarea rows={3} /></div>
+                <div className="sm:col-span-2"><Field label="Overview (detail page body)" value={svc.overview} onChange={v => updateService(svc.id, 'overview', v)} textarea rows={5} placeholder="Extended content shown on the service detail page..." /></div>
+                <div className="sm:col-span-2"><PhotoField label="Service Image" value={svc.image} onChange={v => updateService(svc.id, 'image', v)} height="h-32" /></div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <button onClick={addService} className="w-full border border-dashed border-black/20 hover:border-[#4A86B8] text-black/40 hover:text-[#4A86B8] text-xs py-3 transition-colors">
+        + Add Service
+      </button>
+    </>
+  );
+}
+
+// ─── Section: Projects ────────────────────────────────────────────────────────
+
+function ProjectsSection({
+  content,
+  addProject,
+  removeProject,
+  updateProject,
+}: {
+  content: CMSContent;
+  addProject: () => void;
+  removeProject: (id: string) => void;
+  updateProject: (id: string, key: keyof CMSProject, value: string | boolean) => void;
+}) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+  return (
+    <>
+      <SectionHeading title="Projects" description="Manage project case studies shown on the Projects page. Add photos, outcomes, and client sector details." />
+      <div className="space-y-2 mb-5">
+        {content.projects.map(prj => (
+          <div key={prj.id} className="border border-black/[0.06] bg-white">
+            <div className="flex items-center gap-3 px-4 py-3">
+              <span className="font-mono text-[0.55rem] text-black/30 shrink-0">{prj.category || 'PROJECT'}</span>
+              <span className="flex-1 text-sm text-black truncate">{prj.title || 'Untitled Project'}</span>
+              <div className="flex items-center gap-1 shrink-0">
+                <button onClick={() => setExpanded(e => e === prj.id ? null : prj.id)} className="px-2 py-0.5 text-[0.65rem] border border-black/[0.08] text-black/50 hover:text-black/80 transition-colors">{expanded === prj.id ? 'Close' : 'Edit'}</button>
+                <button onClick={() => removeProject(prj.id)} className="px-2 py-0.5 text-[0.65rem] border border-red-200 text-red-400 hover:text-red-600 transition-colors">Remove</button>
+              </div>
+            </div>
+            {expanded === prj.id && (
+              <div className="border-t border-black/[0.06] px-4 py-5 bg-[#FAFAF9] grid grid-cols-1 sm:grid-cols-2 gap-x-5">
+                <div className="sm:col-span-2"><Field label="Title" value={prj.title} onChange={v => updateProject(prj.id, 'title', v)} /></div>
+                <Field label="Category" value={prj.category} onChange={v => updateProject(prj.id, 'category', v)} placeholder="GIS INFRASTRUCTURE" />
+                <Field label="Scope / Client Type" value={prj.scope} onChange={v => updateProject(prj.id, 'scope', v)} placeholder="Federal / State Government" />
+                <Field label="Year" value={prj.year} onChange={v => updateProject(prj.id, 'year', v)} placeholder="2024" />
+                <Field label="Location" value={prj.location} onChange={v => updateProject(prj.id, 'location', v)} placeholder="Adelaide, SA" />
+                <div className="sm:col-span-2"><Field label="Description" value={prj.description} onChange={v => updateProject(prj.id, 'description', v)} textarea rows={4} /></div>
+                <div className="sm:col-span-2">
+                  <div className="mb-5">
+                    <FieldLabel>Outcomes (one per line)</FieldLabel>
+                    <textarea value={prj.outcomes} onChange={e => updateProject(prj.id, 'outcomes', e.target.value)} rows={5} placeholder={'PostGIS enterprise database\nOGC-compliant services\n...'} className={`${INPUT_CLS} resize-y`} suppressHydrationWarning />
+                    <p className="text-black/30 text-[0.6rem] mt-1">Each line becomes a bullet point on the project card.</p>
+                  </div>
+                </div>
+                <div className="sm:col-span-2"><PhotoField label="Project Photo (optional)" value={prj.image} onChange={v => updateProject(prj.id, 'image', v)} height="h-32" /></div>
+                <div className="sm:col-span-2 flex items-center gap-2 mb-3">
+                  <input type="checkbox" id={`feat-${prj.id}`} checked={prj.featured} onChange={e => updateProject(prj.id, 'featured', e.target.checked)} className="accent-[#4A86B8]" />
+                  <label htmlFor={`feat-${prj.id}`} className="text-sm text-black/60">Featured project</label>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <button onClick={addProject} className="w-full border border-dashed border-black/20 hover:border-[#4A86B8] text-black/40 hover:text-[#4A86B8] text-xs py-3 transition-colors">
+        + Add Project
+      </button>
+    </>
+  );
+}
+
+// ─── Section: Page Content ────────────────────────────────────────────────────
+
+function PageContentSection({
+  content,
+  handleChange,
+}: {
+  content: CMSContent;
+  handleChange: (path: string, value: string) => void;
+}) {
+  const pages: Array<{ key: keyof CMSContent['page_content']; label: string }> = [
+    { key: 'home',       label: 'Home' },
+    { key: 'about',      label: 'About' },
+    { key: 'services',   label: 'Services' },
+    { key: 'contact',    label: 'Contact' },
+    { key: 'industries', label: 'Industries' },
+    { key: 'products',   label: 'Products' },
+    { key: 'projects',   label: 'Projects' },
+    { key: 'technology', label: 'Technology' },
+  ];
+  return (
+    <>
+      <SectionHeading title="Page Content" description="Edit the label, title, and subtitle shown in each page hero section. These override the hardcoded defaults." />
+      <div className="space-y-6">
+        {pages.map(({ key, label }) => (
+          <div key={key} className="border border-black/[0.06] bg-white p-5">
+            <div className="font-mono text-[0.6rem] tracking-widest uppercase text-[#4A86B8] mb-4">{label} Page</div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4">
+              <Field label="Label (eyebrow)" value={content.page_content[key].label} onChange={v => handleChange(`page_content.${key}.label`, v)} placeholder="e.g. Service Portfolio" />
+              <Field label="Title (H1)" value={content.page_content[key].title} onChange={v => handleChange(`page_content.${key}.title`, v)} />
+              <Field label="Subtitle" value={content.page_content[key].subtitle} onChange={v => handleChange(`page_content.${key}.subtitle`, v)} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ─── Section: WMS Layers ──────────────────────────────────────────────────────
+
+function WMSSection({
+  content,
+  addWMSLayer,
+  removeWMSLayer,
+  updateWMSLayer,
+}: {
+  content: CMSContent;
+  addWMSLayer: () => void;
+  removeWMSLayer: (id: string) => void;
+  updateWMSLayer: (id: string, key: keyof CMSWMSLayer, value: string | boolean | number) => void;
+}) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+  return (
+    <>
+      <SectionHeading
+        title="WMS Layers"
+        description="Configure Web Map Service (WMS) layers displayed on the spatial data viewer page (/map). Add OGC-compliant WMS endpoints from GeoServer, ArcGIS, or any WMS provider."
+      />
+      {content.wms_layers.length === 0 && (
+        <div className="border border-dashed border-black/10 bg-white p-8 text-center mb-5">
+          <div className="font-mono text-[0.6rem] tracking-widest uppercase text-black/30 mb-2">No WMS layers configured</div>
+          <p className="text-black/40 text-xs">Add WMS endpoints to display spatial data on the interactive map page.</p>
+        </div>
+      )}
+      <div className="space-y-2 mb-5">
+        {content.wms_layers.map(layer => (
+          <div key={layer.id} className="border border-black/[0.06] bg-white">
+            <div className="flex items-center gap-3 px-4 py-3">
+              <span className={`w-2 h-2 rounded-full shrink-0 ${layer.visible ? 'bg-green-400' : 'bg-black/15'}`} title={layer.visible ? 'Visible' : 'Hidden'} />
+              <span className="flex-1 text-sm text-black truncate">{layer.name || 'Untitled Layer'}</span>
+              <span className="font-mono text-[0.55rem] text-black/30 hidden sm:block truncate max-w-[180px]">{layer.url}</span>
+              <div className="flex items-center gap-1 shrink-0">
+                {layer.url && (
+                  <a href={`${layer.url}?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetCapabilities`} target="_blank" rel="noreferrer" className="px-2 py-0.5 text-[0.65rem] border border-black/[0.08] text-[#4A86B8] hover:bg-[#4A86B8]/5 transition-colors">
+                    Test ↗
+                  </a>
+                )}
+                <button onClick={() => setExpanded(e => e === layer.id ? null : layer.id)} className="px-2 py-0.5 text-[0.65rem] border border-black/[0.08] text-black/50 hover:text-black/80 transition-colors">{expanded === layer.id ? 'Close' : 'Edit'}</button>
+                <button onClick={() => removeWMSLayer(layer.id)} className="px-2 py-0.5 text-[0.65rem] border border-red-200 text-red-400 hover:text-red-600 transition-colors">Remove</button>
+              </div>
+            </div>
+            {expanded === layer.id && (
+              <div className="border-t border-black/[0.06] px-4 py-5 bg-[#FAFAF9] grid grid-cols-1 sm:grid-cols-2 gap-x-5">
+                <Field label="Layer Name (display)" value={layer.name} onChange={v => updateWMSLayer(layer.id, 'name', v)} placeholder="e.g. Cadastre Boundaries" />
+                <Field label="Format" value={layer.format} onChange={v => updateWMSLayer(layer.id, 'format', v)} placeholder="image/png" />
+                <div className="sm:col-span-2"><Field label="WMS Endpoint URL" value={layer.url} onChange={v => updateWMSLayer(layer.id, 'url', v)} placeholder="https://your-geoserver.com/geoserver/wms" /></div>
+                <div className="sm:col-span-2"><Field label="Layer Names (comma-separated)" value={layer.layers} onChange={v => updateWMSLayer(layer.id, 'layers', v)} placeholder="workspace:layer_name" /></div>
+                <Field label="Attribution" value={layer.attribution} onChange={v => updateWMSLayer(layer.id, 'attribution', v)} placeholder="© Airfree Geospatial" />
+                <div>
+                  <FieldLabel>Opacity (0–1)</FieldLabel>
+                  <input type="number" min="0" max="1" step="0.05" value={layer.opacity} onChange={e => updateWMSLayer(layer.id, 'opacity', parseFloat(e.target.value) || 1)} className={INPUT_CLS} suppressHydrationWarning />
+                </div>
+                <div className="sm:col-span-2"><Field label="Description" value={layer.description} onChange={v => updateWMSLayer(layer.id, 'description', v)} textarea rows={2} /></div>
+                <div className="sm:col-span-2 flex items-center gap-6">
+                  <label className="flex items-center gap-2 text-sm text-black/60 cursor-pointer">
+                    <input type="checkbox" checked={layer.transparent} onChange={e => updateWMSLayer(layer.id, 'transparent', e.target.checked)} className="accent-[#4A86B8]" />
+                    Transparent background
+                  </label>
+                  <label className="flex items-center gap-2 text-sm text-black/60 cursor-pointer">
+                    <input type="checkbox" checked={layer.visible} onChange={e => updateWMSLayer(layer.id, 'visible', e.target.checked)} className="accent-[#4A86B8]" />
+                    Visible on map
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <button onClick={addWMSLayer} className="w-full border border-dashed border-black/20 hover:border-[#4A86B8] text-black/40 hover:text-[#4A86B8] text-xs py-3 transition-colors">
+        + Add WMS Layer
+      </button>
+      <div className="mt-5 p-4 bg-[#4A86B8]/[0.04] border border-[#4A86B8]/20">
+        <div className="font-mono text-[0.58rem] tracking-widest uppercase text-[#4A86B8] mb-2">Requires Leaflet</div>
+        <p className="text-black/50 text-xs leading-relaxed">The WMS map viewer uses Leaflet.js. Run <code className="bg-black/5 px-1 py-0.5 rounded text-[0.7rem]">npm install leaflet @types/leaflet</code> to enable the interactive map at <code className="bg-black/5 px-1 py-0.5 rounded text-[0.7rem]">/map</code>.</p>
+      </div>
+    </>
+  );
+}
+
 const NAV_SECTIONS = [
-  { id: 'company', label: 'Company Info' },
-  { id: 'hero', label: 'Hero Slides' },
-  { id: 'photos', label: 'Page Photos' },
-  { id: 'about', label: 'About Section' },
-  { id: 'locations', label: 'Locations' },
-  { id: 'footer', label: 'Footer' },
+  { id: 'company',    label: 'Company Info' },
+  { id: 'hero',       label: 'Hero Slides' },
+  { id: 'photos',     label: 'Page Photos' },
+  { id: 'pages',      label: 'Page Content' },
+  { id: 'services',   label: 'Services' },
+  { id: 'projects',   label: 'Projects' },
+  { id: 'builder',    label: 'Page Builder' },
+  { id: 'about',      label: 'About Section' },
+  { id: 'locations',  label: 'Locations' },
+  { id: 'footer',     label: 'Footer' },
   { id: 'typography', label: 'Typography' },
 ] as const;
 
@@ -1102,10 +1585,12 @@ export default function AdminPage() {
         const merged = {
           ...DEFAULTS,
           ...parsed,
-          typography: {
-            ...DEFAULTS.typography,
-            ...(parsed.typography || {}),
-          },
+          page_content: { ...DEFAULTS.page_content, ...(parsed.page_content || {}) },
+          typography:   { ...DEFAULTS.typography,   ...(parsed.typography   || {}) },
+          services:      Array.isArray(parsed.services)   ? parsed.services   : DEFAULTS.services,
+          projects:      Array.isArray(parsed.projects)   ? parsed.projects   : DEFAULTS.projects,
+          wms_layers:    Array.isArray(parsed.wms_layers) ? parsed.wms_layers : DEFAULTS.wms_layers,
+          page_sections: { ...DEFAULTS.page_sections, ...(parsed.page_sections || {}) },
         };
         setContent(merged);
       } catch {
@@ -1120,10 +1605,12 @@ export default function AdminPage() {
         const merged = {
           ...DEFAULTS,
           ...data,
-          typography: {
-            ...DEFAULTS.typography,
-            ...(data.typography || {}),
-          },
+          page_content:  { ...DEFAULTS.page_content,  ...(data.page_content  || {}) },
+          typography:    { ...DEFAULTS.typography,     ...(data.typography    || {}) },
+          page_sections: { ...DEFAULTS.page_sections,  ...(data.page_sections || {}) },
+          services:      Array.isArray(data.services)   ? data.services   : DEFAULTS.services,
+          projects:      Array.isArray(data.projects)   ? data.projects   : DEFAULTS.projects,
+          wms_layers:    Array.isArray(data.wms_layers) ? data.wms_layers : DEFAULTS.wms_layers,
         };
         setContent(merged);
         localStorage.setItem('airfree_cms_content', JSON.stringify(merged));
@@ -1238,6 +1725,129 @@ export default function AdminPage() {
       ...prev,
       hero: {
         slides: prev.hero.slides.map(s => (s.id === id ? { ...s, [key]: value } : s)),
+      },
+    }));
+
+  // ── Services handlers ─────────────────────────────────────────────────────
+
+  const addService = () =>
+    setContent(prev => ({
+      ...prev,
+      services: [
+        ...prev.services,
+        {
+          id: crypto.randomUUID(),
+          slug: '',
+          number: String(prev.services.length + 1).padStart(2, '0'),
+          title: '',
+          shortTitle: '',
+          description: '',
+          image: '',
+          tags: '',
+          overview: '',
+        },
+      ],
+    }));
+
+  const removeService = (id: string) =>
+    setContent(prev => ({ ...prev, services: prev.services.filter(s => s.id !== id) }));
+
+  const moveService = (id: string, dir: -1 | 1) =>
+    setContent(prev => {
+      const arr = [...prev.services];
+      const idx = arr.findIndex(s => s.id === id);
+      const newIdx = idx + dir;
+      if (newIdx < 0 || newIdx >= arr.length) return prev;
+      [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+      return { ...prev, services: arr };
+    });
+
+  const updateService = (id: string, key: keyof CMSService, value: string) =>
+    setContent(prev => ({
+      ...prev,
+      services: prev.services.map(s => (s.id === id ? { ...s, [key]: value } : s)),
+    }));
+
+  // ── Projects handlers ─────────────────────────────────────────────────────
+
+  const addProject = () =>
+    setContent(prev => ({
+      ...prev,
+      projects: [
+        ...prev.projects,
+        {
+          id: crypto.randomUUID(),
+          title: '',
+          category: '',
+          scope: '',
+          year: new Date().getFullYear().toString(),
+          location: '',
+          image: '',
+          description: '',
+          outcomes: '',
+          featured: false,
+        },
+      ],
+    }));
+
+  const removeProject = (id: string) =>
+    setContent(prev => ({ ...prev, projects: prev.projects.filter(p => p.id !== id) }));
+
+  const updateProject = (id: string, key: keyof CMSProject, value: string | boolean) =>
+    setContent(prev => ({
+      ...prev,
+      projects: prev.projects.map(p => (p.id === id ? { ...p, [key]: value } : p)),
+    }));
+
+  // ── WMS handlers ──────────────────────────────────────────────────────────
+
+  const addWMSLayer = () =>
+    setContent(prev => ({
+      ...prev,
+      wms_layers: [
+        ...prev.wms_layers,
+        {
+          id: crypto.randomUUID(),
+          name: '',
+          url: '',
+          layers: '',
+          format: 'image/png',
+          transparent: true,
+          attribution: '© Airfree Geospatial',
+          visible: true,
+          opacity: 1,
+          description: '',
+        },
+      ],
+    }));
+
+  const removeWMSLayer = (id: string) =>
+    setContent(prev => ({ ...prev, wms_layers: prev.wms_layers.filter(l => l.id !== id) }));
+
+  const updateWMSLayer = (id: string, key: keyof CMSWMSLayer, value: string | boolean | number) =>
+    setContent(prev => ({
+      ...prev,
+      wms_layers: prev.wms_layers.map(l => (l.id === id ? { ...l, [key]: value } : l)),
+    }));
+
+  // ── Page Builder handlers ─────────────────────────────────────────────────
+
+  const reorderSections = (page: keyof CMSContent['page_sections'], fromIdx: number, toIdx: number) =>
+    setContent(prev => {
+      const arr = [...prev.page_sections[page]];
+      const [moved] = arr.splice(fromIdx, 1);
+      arr.splice(toIdx, 0, moved);
+      return { ...prev, page_sections: { ...prev.page_sections, [page]: arr } };
+    });
+
+  const toggleSection = (page: keyof CMSContent['page_sections'], id: string) =>
+    setContent(prev => ({
+      ...prev,
+      page_sections: {
+        ...prev.page_sections,
+        [page]: prev.page_sections[page].map(s =>
+          s.id === id ? { ...s, enabled: !s.enabled } : s
+        ),
       },
     }));
 
@@ -1560,6 +2170,33 @@ export default function AdminPage() {
             )}
             {activeSection === 'typography' && (
               <TypographySection content={content} handleChange={handleChange} handleNumber={handleNumber} />
+            )}
+            {activeSection === 'pages' && (
+              <PageContentSection content={content} handleChange={handleChange} />
+            )}
+            {activeSection === 'services' && (
+              <ServicesSection
+                content={content}
+                addService={addService}
+                removeService={removeService}
+                moveService={moveService}
+                updateService={updateService}
+              />
+            )}
+            {activeSection === 'projects' && (
+              <ProjectsSection
+                content={content}
+                addProject={addProject}
+                removeProject={removeProject}
+                updateProject={updateProject}
+              />
+            )}
+            {activeSection === 'builder' && (
+              <PageBuilderSection
+                content={content}
+                reorderSections={reorderSections}
+                toggleSection={toggleSection}
+              />
             )}
           </div>
         </div>

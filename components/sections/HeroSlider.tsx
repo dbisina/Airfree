@@ -119,7 +119,7 @@ export function HeroSlider() {
   const headingLines = slide.heading.split('\n');
 
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden">
       {/* Background images */}
       <AnimatePresence>
         <motion.div
@@ -156,7 +156,7 @@ export function HeroSlider() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-24 pt-20">
+      <div className="relative z-10 w-full flex flex-col justify-center pt-28 sm:pt-32 md:pt-36 pb-16 px-6 sm:px-12 md:px-16 lg:px-24">
         <div className="max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
@@ -170,7 +170,7 @@ export function HeroSlider() {
 
           <motion.h1
             className="font-serif font-semibold text-white leading-[1.15] tracking-[-0.01em] mb-6"
-            style={{ fontSize: 'clamp(2rem, 5.5vw, 4.2rem)' }}
+            style={{ fontSize: 'clamp(1.6rem, 5.5vw, 4.2rem)' }}
             initial={{ opacity: 0, y: 16, filter: 'blur(4px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1.3, delay: 0.3, ease: SLIDE_EASE }}
@@ -233,7 +233,7 @@ export function HeroSlider() {
           <button
             key={i}
             onClick={() => setCurrent(i)}
-            className={`block transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            className={`block transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
               i === current
                 ? 'w-10 h-[2px] bg-white'
                 : 'w-4 h-[1px] bg-white/30 hover:bg-white/60'
