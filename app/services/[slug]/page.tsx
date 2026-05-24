@@ -407,7 +407,7 @@ export default async function ServiceDetailPage({
 
       {/* Overview */}
       <section className="bg-white py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <RevealOnScroll>
               <SectionLabel className="mb-4">Overview</SectionLabel>
@@ -438,7 +438,7 @@ export default async function ServiceDetailPage({
 
       {/* Solutions */}
       <section className="bg-surface py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="mb-4">Solutions Provided</SectionLabel>
             <h2
@@ -472,7 +472,7 @@ export default async function ServiceDetailPage({
       {/* Standards */}
       {detail.standards && detail.standards.length > 0 && (
         <section className="bg-navy py-12 sm:py-14">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
             <RevealOnScroll>
               <SectionLabel className="text-white/60 mb-6">Standards & Protocols</SectionLabel>
               <div className="flex flex-wrap gap-3">
@@ -493,7 +493,7 @@ export default async function ServiceDetailPage({
 
       {/* CTA */}
       <section className="bg-white py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <h2
               className="font-serif font-bold text-navy mb-4"

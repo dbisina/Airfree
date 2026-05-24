@@ -89,7 +89,7 @@ export default function ProductsPage() {
 
       {/* Products grid */}
       <section className="bg-white py-24">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="mb-12">All Products</SectionLabel>
           </RevealOnScroll>
@@ -155,7 +155,7 @@ export default function ProductsPage() {
 
       {/* CTA */}
       <section className="bg-surface py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <SectionLabel className="mb-4">Custom Requirements</SectionLabel>
             <h2

@@ -76,7 +76,7 @@ export default function ProjectsPage() {
 
       {/* Confidentiality note */}
       <section className="bg-surface py-10">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <p className="text-ink-2 max-w-2xl mx-auto" style={{ fontSize: '0.9rem' }}>
             Airfree Geospatial works on client-confidential engagements across government, utilities, and enterprise. Capability Statements detailing relevant project experience are available to registered procuring organisations upon request.
           </p>
@@ -85,7 +85,7 @@ export default function ProjectsPage() {
 
       {/* Project cards */}
       <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="mb-10">Representative Projects</SectionLabel>
           </RevealOnScroll>
@@ -140,7 +140,7 @@ export default function ProjectsPage() {
 
       {/* CTA */}
       <section className="bg-navy py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <SectionLabel className="text-white/60 mb-4">Procurement</SectionLabel>
             <h2

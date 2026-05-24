@@ -70,7 +70,7 @@ export default function HomePage() {
 
       {/* Service Pillars — numbered list, no orphan grid */}
       <section className="py-16 sm:py-28 md:py-36 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <div className="flex flex-col md:flex-row md:items-end gap-6 mb-16 md:mb-20">
             <div className="flex-1">
               <RevealOnScroll>
@@ -144,8 +144,8 @@ export default function HomePage() {
 
       {/* About — text left, full-bleed photo right with stats overlay */}
       <section className="py-16 sm:py-28 md:py-36 bg-surface overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 lg:gap-24 items-center">
             {/* Text */}
             <div>
               <RevealOnScroll><SectionLabel className="mb-5">About the Practice</SectionLabel></RevealOnScroll>
@@ -199,7 +199,7 @@ export default function HomePage() {
 
       {/* Industries teaser — horizontal scroll cards on mobile, grid on desktop */}
       <section className="py-16 sm:py-28 md:py-36 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <div className="flex flex-col md:flex-row md:items-end gap-6 mb-14">
             <div className="flex-1">
               <RevealOnScroll><SectionLabel className="mb-5">Sectors We Serve</SectionLabel></RevealOnScroll>
@@ -242,7 +242,7 @@ export default function HomePage() {
       </section>
 
       {/* Full-bleed photo CTA */}
-      <section className="relative py-20 sm:py-36 md:py-48 overflow-hidden">
+      <section className="relative py-20 sm:py-32 md:py-40 overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80"
           alt=""

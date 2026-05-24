@@ -12,11 +12,11 @@ export default function Footer() {
 
   return (
     <footer className="bg-navy text-white/70">
-      <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 pb-12 border-b border-white/10">
           {/* Brand */}
           <div>
-            <Image src="/images/logo.png" alt={company.name} width={140} height={40} className="h-9 w-auto object-contain mb-4 brightness-0 invert" />
+            <Image src="/images/logo.png" alt={company.name} width={150} height={44} className="h-10 w-auto object-contain mb-4 brightness-0 invert" />
             <p className="text-sm leading-relaxed mb-4 text-white/50">
               {footerContent.description}
             </p>

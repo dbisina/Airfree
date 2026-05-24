@@ -255,7 +255,7 @@ export default function IndustriesPage() {
 
       {/* Stats strip */}
       <div className="bg-navy border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
             {STATS.map((stat) => (
               <div key={stat.label} className="py-8 px-6 text-center">
@@ -280,7 +280,7 @@ export default function IndustriesPage() {
           key={sector.number}
           className={`py-16 ${i % 2 === 0 ? 'bg-white' : 'bg-surface'}`}
         >
-          <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
               {/* Left */}
               <RevealOnScroll>
@@ -332,7 +332,7 @@ export default function IndustriesPage() {
 
       {/* CTA */}
       <section className="bg-navy py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <SectionLabel className="text-white/60 mb-4">Engagement</SectionLabel>
             <h2

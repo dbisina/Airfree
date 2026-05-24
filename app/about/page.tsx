@@ -48,8 +48,8 @@ export default function AboutPage() {
 
       {/* Mission */}
       <section className="bg-white py-16 sm:py-24 md:py-36">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 lg:gap-16 items-start">
             <RevealOnScroll>
               <SectionLabel className="mb-4">Mission</SectionLabel>
               <h2 className="font-serif font-bold text-navy mb-6 leading-tight" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.75rem)' }}>
@@ -82,14 +82,14 @@ export default function AboutPage() {
 
       {/* Three Principles */}
       <section className="bg-surface py-16 sm:py-24 md:py-36">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="mb-4">Philosophy</SectionLabel>
             <h2 className="font-serif font-bold text-navy mb-14 leading-tight" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.75rem)' }}>
               How We Work
             </h2>
           </RevealOnScroll>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {PRINCIPLES.map((p, i) => (
               <RevealOnScroll key={p.title} delay={i * 0.1}>
                 <div className="bg-white border border-border-s p-5 sm:p-8 h-full">
@@ -109,7 +109,7 @@ export default function AboutPage() {
 
       {/* Who We Serve */}
       <section className="bg-navy py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="text-white/60 mb-4">Operational Focus</SectionLabel>
             <h2
@@ -136,7 +136,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className="bg-white py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <h2 className="font-serif font-bold text-navy mb-4" style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)' }}>
               Discuss your requirements

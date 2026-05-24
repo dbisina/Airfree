@@ -145,7 +145,7 @@ export function HeroSlider() {
       <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/60 to-navy/30" />
 
       {/* HUD overlays */}
-      <div className="absolute top-[6.5rem] left-6 sm:left-8 md:left-16 lg:left-24 z-20 hidden sm:block">
+      <div className="absolute top-[6.5rem] left-6 sm:left-8 md:left-16 lg:left-24 z-20 hidden md:block">
         <span className="font-mono text-[0.58rem] tracking-[0.14em] uppercase text-white/45 select-none">
           AIRFREE GEOSPATIAL PTY LTD &nbsp;|&nbsp; ABN - 698093239 &nbsp;|&nbsp; AUSTRALIA
         </span>

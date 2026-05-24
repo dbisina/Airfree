@@ -87,7 +87,7 @@ export default function ServicesPage() {
 
       {/* Services list */}
       <section className="bg-white py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="mb-10">All Services</SectionLabel>
           </RevealOnScroll>
@@ -95,7 +95,7 @@ export default function ServicesPage() {
             {SERVICES.map((service, i) => (
               <RevealOnScroll key={service.slug} delay={i * 0.07}>
                 <div className="border-b border-border-s py-10">
-                  <div className="grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] gap-4 sm:gap-8 items-start">
+                  <div className="flex flex-col sm:grid sm:grid-cols-[4rem_1fr_auto] gap-4 sm:gap-8 items-start">
                     {/* Number */}
                     <div>
                       <div
@@ -146,7 +146,7 @@ export default function ServicesPage() {
 
       {/* Footer CTA */}
       <section className="bg-surface py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <h2
               className="font-serif font-bold text-navy mb-4"
