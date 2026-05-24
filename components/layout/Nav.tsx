@@ -87,10 +87,10 @@ export default function Nav() {
             <Image
               src="/images/logo-v2.png"
               alt="Airfree Geospatial"
-              width={190}
-              height={56}
+              width={110}
+              height={28}
               className={[
-                'h-[26px] sm:h-[29px] lg:h-[32px] w-auto object-contain',
+                'w-[86px] h-[22px] sm:w-[98px] sm:h-[25px] lg:w-[110px] lg:h-[28px] object-contain',
                 'transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]',
                 'group-hover:opacity-80',
                 transparent ? 'brightness-0 invert' : '',
@@ -270,9 +270,9 @@ export default function Nav() {
                 <Image
                   src="/images/logo-v2.png"
                   alt="Airfree Geospatial"
-                  width={190}
-                  height={56}
-                  className="h-[26px] sm:h-[29px] w-auto object-contain"
+                  width={110}
+                  height={28}
+                  className="w-[86px] h-[22px] sm:w-[98px] sm:h-[25px] object-contain"
                 />
               </Link>
               <button

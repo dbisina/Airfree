@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 pb-12 border-b border-white/10">
           {/* Brand */}
           <div>
-            <Image src="/images/logo-v2.png" alt={company.name} width={180} height={52} className="h-[32px] w-auto object-contain mb-4 brightness-0 invert" />
+            <Image src="/images/logo-v2.png" alt={company.name} width={110} height={28} className="w-[110px] h-[28px] object-contain mb-4 brightness-0 invert" />
             <p className="text-sm leading-relaxed mb-4 text-white/50">
               {footerContent.description}
             </p>
