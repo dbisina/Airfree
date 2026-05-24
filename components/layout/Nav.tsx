@@ -69,7 +69,7 @@ export default function Nav() {
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   const linkCls = (href: string) =>
-    `px-4 py-1.5 text-[0.62rem] font-nav font-bold tracking-[0.16em] uppercase transition-all duration-300 ${
+    `px-2 md:px-3 lg:px-4 py-1.5 text-[0.56rem] lg:text-[0.62rem] font-nav font-bold tracking-[0.1em] lg:tracking-[0.16em] uppercase transition-all duration-300 ${
       transparent
         ? isActive(href) ? 'text-white' : 'text-white/60 hover:text-white'
         : isActive(href) ? 'text-brand-blue' : 'text-ink-2 hover:text-ink'
@@ -84,19 +84,19 @@ export default function Nav() {
             : 'bg-white/90 border-black/5 backdrop-blur-md shadow-[0_8px_32px_rgba(10,22,40,0.06)]'
         }`}
       >
-        <div className="flex items-center justify-between h-14 px-1.5 sm:px-3 md:px-5">
+        <div className="flex items-center justify-between h-16 px-3 md:px-4 lg:px-5">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <Image
               src="/images/airfreelogo.png"
               alt="Airfree Geospatial"
-              width={90}
-              height={60}
-              className={`max-w-27.5 h-8 w-auto object-contain transition-all duration-700 ${transparent ? 'brightness-0 invert' : ''}`}
+              width={170}
+              height={50}
+              className={`max-w-[160px] sm:max-w-[180px] lg:max-w-[200px] h-[44px] sm:h-[48px] w-auto object-contain transition-all duration-700 ${transparent ? 'brightness-0 invert' : ''}`}
             />
           </Link>
 
-          {/* Desktop links */}
+          {/* Desktop links — show at md (768px) for iPad/tablet */}
           <div className="hidden md:flex items-center gap-0.5">
             {NAV_LINKS.map(link => {
               if (link.children) {
@@ -148,7 +148,7 @@ export default function Nav() {
           <div className="flex items-center gap-4">
             <Link
               href="/contact"
-              className={`hidden md:inline-flex items-center px-6 py-2.5 text-[0.65rem] font-nav font-bold tracking-[0.16em] uppercase rounded-xs border transition-all duration-300 ${
+              className={`hidden md:inline-flex items-center px-3 lg:px-5 py-1.5 text-[0.56rem] lg:text-[0.65rem] font-nav font-bold tracking-[0.1em] lg:tracking-[0.16em] uppercase rounded-[2px] border transition-all duration-300 ${
                 transparent
                   ? 'border-white/30 bg-white/5 text-white hover:bg-white hover:text-navy'
                   : 'border-brand-blue bg-brand-blue text-white hover:bg-[#3a72a0] hover:border-[#3a72a0]'
@@ -207,9 +207,9 @@ export default function Nav() {
                 <Image
                   src="/images/logo.png"
                   alt="Airfree Geospatial"
-                  width={150}
-                  height={44}
-                  className="max-w-[110px] h-8 w-auto object-contain"
+                  width={170}
+                  height={50}
+                  className="max-w-[140px] sm:max-w-[155px] h-[38px] sm:h-[42px] w-auto object-contain"
                 />
               </Link>
               <button

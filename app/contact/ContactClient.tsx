@@ -61,8 +61,8 @@ export default function ContactClient() {
 
       {/* Section 2: Direct Contact + Form */}
       <section className="bg-white py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
-          <div className="flex flex-col md:flex-row gap-16 lg:gap-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
+          <div className="flex flex-col md:flex-row gap-10 md:gap-14 lg:gap-24">
             {/* Left: Direct Contact */}
             <div className="max-w-xs w-full shrink-0">
               <RevealOnScroll>
@@ -245,7 +245,7 @@ export default function ContactClient() {
 
       {/* Section 3: Office Locations */}
       <section className="bg-surface py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="mb-4">Our Offices</SectionLabel>
             <h2
@@ -256,7 +256,7 @@ export default function ContactClient() {
             </h2>
           </RevealOnScroll>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {offices.map((office) => (
               <RevealOnScroll key={office.city}>
                 <div className="bg-white border border-border-s overflow-hidden">

@@ -210,7 +210,7 @@ export default function TechnologyPage() {
 
         return (
           <section key={cat.label} className={`${sectionBg} py-20`}>
-            <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-16 items-start">
                 {/* Left: description */}
                 <RevealOnScroll>
@@ -260,7 +260,7 @@ export default function TechnologyPage() {
 
       {/* CTA */}
       <section className="bg-navy py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <SectionLabel className="text-white/60 mb-4">Capability</SectionLabel>
             <h2

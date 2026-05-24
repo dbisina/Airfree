@@ -19,7 +19,7 @@ export function PageHero({ label, title, subtitle, breadcrumb, imageKey }: Props
   const imageSrc = imageKey ? (cms.page_photos[imageKey] || null) : null;
 
   return (
-    <section className="relative pt-28 pb-16 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden">
+    <section className="relative pt-28 pb-16 px-4 sm:px-8 md:px-10 lg:px-24 overflow-hidden">
       {/* Background — photo if provided, otherwise navy + dot grid */}
       {imageSrc ? (
         <>

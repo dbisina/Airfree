@@ -109,7 +109,7 @@ export default function ServicesPage() {
 
       {/* Services list */}
       <section className="bg-white py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
             <SectionLabel className="mb-10">All Services</SectionLabel>
           </RevealOnScroll>
@@ -117,20 +117,9 @@ export default function ServicesPage() {
           {/* GRID CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {SERVICES.map((service, i) => (
-              <RevealOnScroll key={service.slug} delay={i * 0.05}>
-                {/* CARD */}
-                <div className="group flex flex-col h-full border border-border-s bg-white overflow-hidden hover:shadow-md transition-all duration-300">
-                  {/* IMAGE (placeholder if no image in this file) */}
-                  <div className="relative h-44 overflow-hidden">
-  <img
-    src={service.image}
-    alt={service.title}
-    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-  />
-</div>
-
-                  {/* CONTENT */}
-                  <div className="flex flex-col flex-1 p-6">
+              <RevealOnScroll key={service.slug} delay={i * 0.07}>
+                <div className="border-b border-border-s py-10">
+                  <div className="flex flex-col sm:grid sm:grid-cols-[4rem_1fr_auto] gap-4 sm:gap-8 items-start">
                     {/* Number */}
                     <div className="font-mono text-[0.65rem] tracking-widest text-ink-3 mb-2">
                       {service.number}
@@ -192,7 +181,7 @@ export default function ServicesPage() {
 
       {/* Footer CTA */}
       <section className="bg-surface py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24 text-center">
           <RevealOnScroll>
             <h2
               className="font-serif font-bold text-navy mb-4"
