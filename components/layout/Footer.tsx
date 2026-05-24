@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { SERVICES } from '@/lib/constants';
 import { useCMS } from '@/lib/useCMS';
+import { FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -74,9 +75,11 @@ export default function Footer() {
           <p className="text-xs text-white/30">
             © {year} {footerContent.copyright_entity}. All rights reserved.
           </p>
-          <p className="font-mono text-[0.56rem] tracking-widest uppercase text-white/20">
-            {footerContent.brand_tagline}
-          </p>
+          <div className="flex items-center gap-5">
+            <a href="#" aria-label="LinkedIn" className="text-white/30 hover:text-white/70 transition-colors"><FaLinkedin size={16} /></a>
+            <a href="#" aria-label="Twitter" className="text-white/30 hover:text-white/70 transition-colors"><FaTwitter size={16} /></a>
+            <a href="#" aria-label="YouTube" className="text-white/30 hover:text-white/70 transition-colors"><FaYoutube size={16} /></a>
+          </div>
         </div>
       </div>
     </footer>
