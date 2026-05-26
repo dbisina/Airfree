@@ -7,26 +7,24 @@ import { RevealOnScroll } from '@/components/ui/RevealOnScroll';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
 
+// ── Map extras ─────────────────────────────────────────────────────────────────
+
 const mapExtras = {
   adelaide: {
-    osmSrc:
-      'https://www.openstreetmap.org/export/embed.html?bbox=138.680%2C-34.685%2C138.730%2C-34.645&layer=mapnik&marker=-34.6656%2C138.7063',
-    mapsUrl:
-      'https://www.google.com/maps/dir//35+Cassia+Street+Munno+Para+West+SA+5115',
+    osmSrc: 'https://www.openstreetmap.org/export/embed.html?bbox=138.680%2C-34.685%2C138.730%2C-34.645&layer=mapnik&marker=-34.6656%2C138.7063',
+    mapsUrl: 'https://www.google.com/maps/dir//35+Cassia+Street+Munno+Para+West+SA+5115',
   },
   perth: {
-    osmSrc:
-      'https://www.openstreetmap.org/export/embed.html?bbox=115.880%2C-32.080%2C115.950%2C-32.035&layer=mapnik&marker=-32.0576%2C115.9181',
-    mapsUrl:
-      'https://www.google.com/maps/dir//8+Seddon+Way+Canning+Vale+WA+6155',
+    osmSrc: 'https://www.openstreetmap.org/export/embed.html?bbox=115.880%2C-32.080%2C115.950%2C-32.035&layer=mapnik&marker=-32.0576%2C115.9181',
+    mapsUrl: 'https://www.google.com/maps/dir//8+Seddon+Way+Canning+Vale+WA+6155',
   },
   melbourne: {
-    osmSrc:
-      'https://www.openstreetmap.org/export/embed.html?bbox=144.990%2C-37.710%2C145.045%2C-37.655&layer=mapnik&marker=-37.6806%2C145.0155',
-    mapsUrl:
-      'https://www.google.com/maps/dir//324+Settlement+Road+Thomastown+VIC+3072',
+    osmSrc: 'https://www.openstreetmap.org/export/embed.html?bbox=144.990%2C-37.710%2C145.045%2C-37.655&layer=mapnik&marker=-37.6806%2C145.0155',
+    mapsUrl: 'https://www.google.com/maps/dir//324+Settlement+Road+Thomastown+VIC+3072',
   },
 };
+
+// ── Styles ─────────────────────────────────────────────────────────────────────
 
 const inputClass =
   'w-full border border-border-s bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand-blue transition-colors';
@@ -34,13 +32,60 @@ const inputClass =
 const labelClass =
   'block text-xs font-mono uppercase tracking-widest text-ink-3 mb-2';
 
+// ── Component ──────────────────────────────────────────────────────────────────
+
 export default function ContactClient() {
   const cms = useCMS();
   const [mounted, setMounted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    organisation: '',
+    email: '',
+    service: '',
+    message: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'Failed to send enquiry.');
+      }
+
+      setSuccess(true);
+      setFormData({
+        name: '',
+        organisation: '',
+        email: '',
+        service: '',
+        message: '',
+      });
+    } catch (err: any) {
+      console.error('Submission error:', err);
+      setError(err.message || 'An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const company = cms.company;
   const offices = [
@@ -51,7 +96,7 @@ export default function ContactClient() {
 
   return (
     <>
-      {/* Section 1: Hero */}
+      {/* Hero */}
       <PageHero
         label="Contact"
         title="Get in Touch"
@@ -59,10 +104,11 @@ export default function ContactClient() {
         imageKey="contact"
       />
 
-      {/* Section 2: Direct Contact + Form */}
+      {/* Contact + Form */}
       <section className="bg-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <div className="flex flex-col md:flex-row gap-10 md:gap-14 lg:gap-24">
+
             {/* Left: Direct Contact */}
             <div className="max-w-xs w-full shrink-0">
               <RevealOnScroll>
@@ -74,9 +120,7 @@ export default function ContactClient() {
                   Reach Us Directly
                 </h2>
 
-                {/* Contact rows */}
                 <div>
-                  {/* EMAIL */}
                   <div className="flex items-baseline gap-4 py-3 border-t border-b border-border-s">
                     <span className="font-mono text-[0.6rem] tracking-widest uppercase text-ink-3 w-20 shrink-0">
                       EMAIL
@@ -88,16 +132,12 @@ export default function ContactClient() {
                       {company.email}
                     </a>
                   </div>
-
-                  {/* PHONE */}
                   <div className="flex items-baseline gap-4 py-3 border-b border-border-s">
                     <span className="font-mono text-[0.6rem] tracking-widest uppercase text-ink-3 w-20 shrink-0">
                       PHONE
                     </span>
                     <span className="text-sm text-ink">{company.phone}</span>
                   </div>
-
-                  {/* ABN */}
                   <div className="flex items-baseline gap-4 py-3 border-b border-border-s">
                     <span className="font-mono text-[0.6rem] tracking-widest uppercase text-ink-3 w-20 shrink-0">
                       ABN
@@ -106,7 +146,6 @@ export default function ContactClient() {
                   </div>
                 </div>
 
-                {/* Enquiry Types */}
                 <SectionLabel className="mt-8 mb-3">Enquiry Types</SectionLabel>
                 <ul className="flex flex-col gap-2 text-sm text-ink-2">
                   <li>Project Scope Consultations</li>
@@ -117,7 +156,7 @@ export default function ContactClient() {
               </RevealOnScroll>
             </div>
 
-            {/* Right: Enquiry Form (Hydration Gated) */}
+            {/* Right: Form */}
             <div className="flex-1 max-w-lg">
               <RevealOnScroll>
                 <SectionLabel className="mb-4">Submit an Enquiry</SectionLabel>
@@ -128,26 +167,46 @@ export default function ContactClient() {
                   Project Enquiry Form
                 </h2>
 
+                {/* ── Form Logic ── */}
                 {!mounted ? (
                   <div className="py-12 flex items-center justify-center border border-border-s bg-surface font-mono text-[0.65rem] uppercase tracking-widest text-ink-3">
-                    Loading Enquiry Form...
+                    Loading...
+                  </div>
+                ) : success ? (
+                  <div className="bg-brand-blue/5 border border-brand-blue/20 p-8 rounded-[2px] text-center">
+                    <div className="w-12 h-12 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-4">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-brand-blue">
+                        <path d="M16.6666 5L7.49992 14.1667L3.33325 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <h3 className="font-serif text-base font-semibold text-ink mb-2">Enquiry Sent</h3>
+                    <p className="text-xs text-ink-2 mb-6 leading-relaxed">
+                      Thank you for contacting Airfree Geospatial. We have received your message and will respond within two business days.
+                    </p>
+                    <Button onClick={() => setSuccess(false)} variant="primary">
+                      Send Another Message
+                    </Button>
                   </div>
                 ) : (
-                  <form
-                    action={`mailto:${company.email}`}
-                    method="post"
-                    encType="text/plain"
-                  >
+                  <form onSubmit={handleSubmit}>
+                    {error && (
+                      <div className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-800 text-xs rounded-[2px] leading-relaxed">
+                        {error}
+                      </div>
+                    )}
                     <div className="mb-5">
                       <label htmlFor="contact-name" className={labelClass}>
-                        Name
+                        Name <span className="text-brand-blue">*</span>
                       </label>
                       <input
                         id="contact-name"
                         type="text"
                         name="name"
                         placeholder="Your full name"
+                        value={formData.name}
+                        onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
                         className={inputClass}
+                        required
                       />
                     </div>
 
@@ -160,20 +219,25 @@ export default function ContactClient() {
                         type="text"
                         name="organisation"
                         placeholder="Company or agency name"
+                        value={formData.organisation}
+                        onChange={e => setFormData(prev => ({ ...prev, organisation: e.target.value }))}
                         className={inputClass}
                       />
                     </div>
 
                     <div className="mb-5">
                       <label htmlFor="contact-email" className={labelClass}>
-                        Email
+                        Email <span className="text-brand-blue">*</span>
                       </label>
                       <input
                         id="contact-email"
                         type="email"
                         name="email"
                         placeholder="you@organisation.com"
+                        value={formData.email}
+                        onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
                         className={inputClass}
+                        required
                       />
                     </div>
 
@@ -185,11 +249,10 @@ export default function ContactClient() {
                         id="contact-service"
                         name="service"
                         className={inputClass}
-                        defaultValue=""
+                        value={formData.service}
+                        onChange={e => setFormData(prev => ({ ...prev, service: e.target.value }))}
                       >
-                        <option value="" disabled>
-                          Select a service area
-                        </option>
+                        <option value="">Select a service area</option>
                         <option value="GIS & Spatial Infrastructure">
                           GIS &amp; Spatial Infrastructure
                         </option>
@@ -217,33 +280,37 @@ export default function ContactClient() {
 
                     <div className="mb-5">
                       <label htmlFor="contact-message" className={labelClass}>
-                        Message
+                        Message <span className="text-brand-blue">*</span>
                       </label>
                       <textarea
                         id="contact-message"
                         name="message"
                         rows={5}
                         placeholder="Describe your project or enquiry..."
-                        className={inputClass}
+                        value={formData.message}
+                        onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                        className={`${inputClass} resize-y`}
+                        required
                       />
                     </div>
 
-                    <Button type="submit" variant="primary">
-                      Submit Enquiry
+                    <Button type="submit" variant="primary" disabled={loading}>
+                      {loading ? 'Sending...' : 'Submit Enquiry'}
                     </Button>
 
                     <p className="text-xs text-ink-3 mt-3">
-                      Submitting opens your email client to send to {company.email}. Response within 2 business days.
+                      Your message will be sent to {company.email}. Response within 2 business days.
                     </p>
                   </form>
                 )}
               </RevealOnScroll>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Section 3: Office Locations */}
+      {/* Office Locations */}
       <section className="bg-surface py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
           <RevealOnScroll>
@@ -257,7 +324,7 @@ export default function ContactClient() {
           </RevealOnScroll>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {offices.map((office) => (
+            {offices.map(office => (
               <RevealOnScroll key={office.city}>
                 <div className="bg-white border border-border-s overflow-hidden">
                   <iframe
@@ -276,14 +343,8 @@ export default function ContactClient() {
                       {office.city}
                     </h3>
                     <address className="not-italic text-sm text-ink-2 leading-relaxed mb-4">
-                      {office.address_line1}
-                      <br />
-                      {office.address_line2 && (
-                        <>
-                          {office.address_line2}
-                          <br />
-                        </>
-                      )}
+                      {office.address_line1}<br />
+                      {office.address_line2 && <>{office.address_line2}<br /></>}
                       {office.address_line3}
                     </address>
                     <a
@@ -302,7 +363,7 @@ export default function ContactClient() {
         </div>
       </section>
 
-      {/* Section 4: Capability Statement CTA */}
+      {/* Capability Statement CTA */}
       <section id="capability" className="bg-navy py-16 sm:py-24 px-4 sm:px-8 text-center">
         <div className="max-w-2xl mx-auto">
           <RevealOnScroll>

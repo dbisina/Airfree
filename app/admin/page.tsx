@@ -126,6 +126,13 @@ interface CMSContent {
     brand_tagline: string;
     description: string;
     copyright_entity: string;
+    social: {
+      linkedin: string;
+      twitter: string;
+      youtube: string;
+      facebook: string;
+      instagram: string;
+    };
   };
   typography: {
     body_size: number;
@@ -248,6 +255,7 @@ const DEFAULTS: CMSContent = {
     description:
       'A specialised geospatial intelligence and infrastructure analytics consultancy serving government, utilities, and large-scale engineering operations.',
     copyright_entity: 'Airfree Geospatial Pty Ltd',
+    social: { linkedin: '', twitter: '', youtube: '', facebook: '', instagram: '' },
   },
   typography: {
     body_size: 18,
@@ -852,6 +860,44 @@ function FooterSection({
         value={content.footer.copyright_entity}
         onChange={v => handleChange('footer.copyright_entity', v)}
       />
+
+      {/* Social Links */}
+      <div className="mt-6 pt-5 border-t border-black/[0.06]">
+        <SectionHeading
+          title="Social Media Links"
+          description="Enter full URLs (e.g. https://linkedin.com/company/airfree). Leave blank to hide that icon."
+        />
+        <Field
+          label="LinkedIn URL"
+          value={content.footer.social?.linkedin ?? ''}
+          onChange={v => handleChange('footer.social.linkedin', v)}
+          placeholder="https://linkedin.com/company/..."
+        />
+        <Field
+          label="X / Twitter URL"
+          value={content.footer.social?.twitter ?? ''}
+          onChange={v => handleChange('footer.social.twitter', v)}
+          placeholder="https://x.com/..."
+        />
+        <Field
+          label="YouTube URL"
+          value={content.footer.social?.youtube ?? ''}
+          onChange={v => handleChange('footer.social.youtube', v)}
+          placeholder="https://youtube.com/@..."
+        />
+        <Field
+          label="Facebook URL"
+          value={content.footer.social?.facebook ?? ''}
+          onChange={v => handleChange('footer.social.facebook', v)}
+          placeholder="https://facebook.com/..."
+        />
+        <Field
+          label="Instagram URL"
+          value={content.footer.social?.instagram ?? ''}
+          onChange={v => handleChange('footer.social.instagram', v)}
+          placeholder="https://instagram.com/..."
+        />
+      </div>
     </>
   );
 }
@@ -1510,6 +1556,192 @@ function WMSSection({
   );
 }
 
+function EnquiriesSection({
+  enquiries,
+  loading,
+  onRefresh,
+}: {
+  enquiries: {
+    id: string;
+    name: string;
+    organisation: string;
+    email: string;
+    service: string;
+    message: string;
+    timestamp: string;
+  }[];
+  loading: boolean;
+  onRefresh: () => void;
+}) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const formatDate = (isoString: string) => {
+    try {
+      const d = new Date(isoString);
+      return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      return isoString;
+    }
+  };
+
+  return (
+    <>
+      <div className="flex items-center justify-between mb-6">
+        <SectionHeading
+          title="Contact Form Enquiries"
+          description="View recent project and capability statement enquiries submitted through the contact form. Saved securely to Upstash Redis."
+        />
+        <button
+          onClick={onRefresh}
+          disabled={loading}
+          className="px-3 py-1.5 text-xs font-mono uppercase tracking-widest border border-black/10 bg-white hover:bg-black/5 disabled:opacity-50 transition-colors"
+        >
+          {loading ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
+
+      {enquiries.length === 0 ? (
+        <div className="border border-dashed border-black/10 bg-white p-8 text-center">
+          <div className="font-mono text-[0.6rem] tracking-widest uppercase text-black/30 mb-2">No enquiries found</div>
+          <p className="text-black/40 text-xs">Submitted contact forms will appear here.</p>
+        </div>
+      ) : (
+        <div className="space-y-2.5">
+          {enquiries.map(item => (
+            <div key={item.id} className="border border-black/[0.06] bg-white">
+              <div className="flex items-center gap-3 px-4 py-3 cursor-pointer select-none" onClick={() => setExpanded(e => e === item.id ? null : item.id)}>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm font-semibold text-black">{item.name}</span>
+                    {item.organisation && (
+                      <span className="text-xs text-black/40 truncate">({item.organisation})</span>
+                    )}
+                  </div>
+                  <div className="text-xs text-black/50 truncate mt-0.5">{item.service || 'General Enquiry'}</div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="text-[0.65rem] font-mono text-black/30">{formatDate(item.timestamp)}</div>
+                  <div className="text-[0.65rem] text-[#4A86B8] font-semibold mt-0.5">
+                    {expanded === item.id ? 'Click to collapse' : 'Click to read'}
+                  </div>
+                </div>
+              </div>
+              {expanded === item.id && (
+                <div className="border-t border-black/[0.06] px-4 py-4 bg-[#FAFAF9] text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4 border-b border-black/[0.05] pb-3">
+                    <div>
+                      <span className="font-mono text-[0.6rem] text-black/40 block mb-0.5">SENDER EMAIL</span>
+                      <a href={`mailto:${item.email}`} className="text-brand-blue hover:underline">{item.email}</a>
+                    </div>
+                    <div>
+                      <span className="font-mono text-[0.6rem] text-black/40 block mb-0.5">SERVICE INTEREST</span>
+                      <span className="text-black/70 font-semibold">{item.service || 'General Enquiry'}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="font-mono text-[0.6rem] text-black/40 block mb-1">MESSAGE CONTENT</span>
+                    <p className="text-black/80 whitespace-pre-wrap leading-relaxed bg-white border border-black/[0.04] p-3 font-mono text-[0.65rem]">
+                      {item.message}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+// ─── Section: Newsletter Subscribers ─────────────────────────────────────────
+
+function SubscribersSection({
+  subscribers,
+  loading,
+  onRefresh,
+}: {
+  subscribers: { email: string; subscribedAt: string }[];
+  loading: boolean;
+  onRefresh: () => void;
+}) {
+  const formatDate = (iso: string) => {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch {
+      return iso;
+    }
+  };
+
+  const handleExport = () => {
+    if (subscribers.length === 0) return;
+    const csv = ['Email,Subscribed At', ...subscribers.map(s => `${s.email},${s.subscribedAt}`)].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `airfree-subscribers-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <>
+      <div className="flex items-start justify-between mb-6 gap-4">
+        <SectionHeading
+          title="Newsletter Subscribers"
+          description={`${subscribers.length} subscriber${subscribers.length !== 1 ? 's' : ''} collected via the footer newsletter strip. Stored securely in Upstash Redis.`}
+        />
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={handleExport}
+            disabled={subscribers.length === 0}
+            className="px-3 py-1.5 text-xs font-mono uppercase tracking-widest border border-black/10 bg-white hover:bg-black/5 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
+            Export CSV
+          </button>
+          <button
+            onClick={onRefresh}
+            disabled={loading}
+            className="px-3 py-1.5 text-xs font-mono uppercase tracking-widest border border-black/10 bg-white hover:bg-black/5 disabled:opacity-50 transition-colors"
+          >
+            {loading ? 'Refreshing...' : 'Refresh'}
+          </button>
+        </div>
+      </div>
+
+      {subscribers.length === 0 ? (
+        <div className="border border-dashed border-black/10 bg-white p-8 text-center">
+          <div className="font-mono text-[0.6rem] tracking-widest uppercase text-black/30 mb-2">No subscribers yet</div>
+          <p className="text-black/40 text-xs">Email addresses collected via the footer newsletter will appear here.</p>
+        </div>
+      ) : (
+        <div className="border border-black/[0.06] bg-white divide-y divide-black/[0.05]">
+          {/* Header row */}
+          <div className="grid grid-cols-[1fr_auto] px-4 py-2 bg-[#FAFAF9]">
+            <span className="font-mono text-[0.58rem] tracking-widest uppercase text-black/35">Email Address</span>
+            <span className="font-mono text-[0.58rem] tracking-widest uppercase text-black/35">Subscribed</span>
+          </div>
+          {subscribers.map((sub, i) => (
+            <div key={`${sub.email}-${i}`} className="grid grid-cols-[1fr_auto] items-center px-4 py-3 hover:bg-black/[0.015] transition-colors">
+              <a
+                href={`mailto:${sub.email}`}
+                className="text-sm text-[#4A86B8] hover:text-navy transition-colors truncate pr-4"
+              >
+                {sub.email}
+              </a>
+              <span className="font-mono text-[0.62rem] text-black/35 whitespace-nowrap">
+                {formatDate(sub.subscribedAt)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
 const NAV_SECTIONS = [
   { id: 'company',    label: 'Company Info' },
   { id: 'hero',       label: 'Hero Slides' },
@@ -1518,7 +1750,9 @@ const NAV_SECTIONS = [
   { id: 'services',   label: 'Services' },
   { id: 'projects',   label: 'Projects' },
   { id: 'builder',    label: 'Page Builder' },
-  { id: 'about',      label: 'About Section' },
+  { id: 'enquiries',   label: 'Enquiries' },
+  { id: 'subscribers', label: 'Subscribers' },
+  { id: 'about',       label: 'About Section' },
   { id: 'locations',  label: 'Locations' },
   { id: 'footer',     label: 'Footer' },
   { id: 'typography', label: 'Typography' },
@@ -1554,6 +1788,44 @@ export default function AdminPage() {
       .catch(() => {});
   };
 
+  const [enquiries, setEnquiries] = useState<{
+    id: string;
+    name: string;
+    organisation: string;
+    email: string;
+    service: string;
+    message: string;
+    timestamp: string;
+  }[]>([]);
+  const [loadingEnquiries, setLoadingEnquiries] = useState(false);
+
+  const [subscribers, setSubscribers] = useState<{ email: string; subscribedAt: string }[]>([]);
+  const [loadingSubscribers, setLoadingSubscribers] = useState(false);
+
+  const fetchSubscribers = () => {
+    setLoadingSubscribers(true);
+    fetch('/api/newsletter')
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok && data.subscribers) setSubscribers(data.subscribers);
+      })
+      .catch(err => console.error('Failed to load subscribers:', err))
+      .finally(() => setLoadingSubscribers(false));
+  };
+
+  const fetchEnquiries = () => {
+    setLoadingEnquiries(true);
+    fetch('/api/contact')
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok && data.submissions) {
+          setEnquiries(data.submissions);
+        }
+      })
+      .catch(err => console.error('Failed to load enquiries:', err))
+      .finally(() => setLoadingEnquiries(false));
+  };
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -1562,6 +1834,14 @@ export default function AdminPage() {
       // ignore
     }
   };
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchEnquiries();
+      fetchSubscribers();
+      fetchHistory();
+    }
+  }, [authenticated]);
 
   // Check auth and load content on mount
   useEffect(() => {
@@ -2196,6 +2476,20 @@ export default function AdminPage() {
                 content={content}
                 reorderSections={reorderSections}
                 toggleSection={toggleSection}
+              />
+            )}
+            {activeSection === 'enquiries' && (
+              <EnquiriesSection
+                enquiries={enquiries}
+                loading={loadingEnquiries}
+                onRefresh={fetchEnquiries}
+              />
+            )}
+            {activeSection === 'subscribers' && (
+              <SubscribersSection
+                subscribers={subscribers}
+                loading={loadingSubscribers}
+                onRefresh={fetchSubscribers}
               />
             )}
           </div>

@@ -84,7 +84,18 @@ export interface CMSContent {
   };
   about_intro: { heading: string; tagline: string; body: string; photo: string; };
   locations: { adelaide: CMSLocation; perth: CMSLocation; melbourne: CMSLocation; };
-  footer: { brand_tagline: string; description: string; copyright_entity: string; };
+  footer: {
+    brand_tagline: string;
+    description: string;
+    copyright_entity: string;
+    social: {
+      linkedin: string;
+      twitter: string;
+      youtube: string;
+      facebook: string;
+      instagram: string;
+    };
+  };
   typography: {
     body_size: number;
     heading_font: string;
@@ -163,6 +174,13 @@ export const CMS_DEFAULTS: CMSContent = {
     brand_tagline: 'Enterprise Spatial Intelligence',
     description: 'A specialised geospatial intelligence and infrastructure analytics consultancy serving government, utilities, and large-scale engineering operations.',
     copyright_entity: 'Airfree Geospatial Pty Ltd',
+    social: {
+      linkedin: '',
+      twitter: '',
+      youtube: '',
+      facebook: '',
+      instagram: '',
+    },
   },
   typography: {
     body_size: 18,
@@ -249,6 +267,14 @@ export function readCMS(): CMSContent {
     return {
       ...CMS_DEFAULTS,
       ...parsed,
+      footer: {
+        ...CMS_DEFAULTS.footer,
+        ...(parsed.footer || {}),
+        social: {
+          ...CMS_DEFAULTS.footer.social,
+          ...((parsed.footer as { social?: Record<string, string> })?.social || {}),
+        },
+      },
       page_content: {
         ...CMS_DEFAULTS.page_content,
         ...(parsed.page_content || {}),
