@@ -1865,12 +1865,13 @@ export default function AdminPage() {
         const merged = {
           ...DEFAULTS,
           ...parsed,
-          page_content: { ...DEFAULTS.page_content, ...(parsed.page_content || {}) },
-          typography:   { ...DEFAULTS.typography,   ...(parsed.typography   || {}) },
+          footer:        { ...DEFAULTS.footer, ...(parsed.footer || {}), social: { ...DEFAULTS.footer.social, ...((parsed.footer as any)?.social || {}) } },
+          page_content:  { ...DEFAULTS.page_content,  ...(parsed.page_content  || {}) },
+          typography:    { ...DEFAULTS.typography,     ...(parsed.typography    || {}) },
           services:      Array.isArray(parsed.services)   ? parsed.services   : DEFAULTS.services,
           projects:      Array.isArray(parsed.projects)   ? parsed.projects   : DEFAULTS.projects,
           wms_layers:    Array.isArray(parsed.wms_layers) ? parsed.wms_layers : DEFAULTS.wms_layers,
-          page_sections: { ...DEFAULTS.page_sections, ...(parsed.page_sections || {}) },
+          page_sections: { ...DEFAULTS.page_sections,  ...(parsed.page_sections || {}) },
         };
         setContent(merged);
       } catch {
@@ -1885,6 +1886,7 @@ export default function AdminPage() {
         const merged = {
           ...DEFAULTS,
           ...data,
+          footer:        { ...DEFAULTS.footer, ...(data.footer || {}), social: { ...DEFAULTS.footer.social, ...((data.footer as any)?.social || {}) } },
           page_content:  { ...DEFAULTS.page_content,  ...(data.page_content  || {}) },
           typography:    { ...DEFAULTS.typography,     ...(data.typography    || {}) },
           page_sections: { ...DEFAULTS.page_sections,  ...(data.page_sections || {}) },
