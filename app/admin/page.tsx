@@ -2,6 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+const RichTextEditor = dynamic(
+  () => import('@/components/admin/RichTextEditor').then(m => m.RichTextEditor),
+  { ssr: false, loading: () => <div className="border border-black/[0.08] bg-[#FAFAF9] h-[200px] flex items-center justify-center font-mono text-[0.6rem] tracking-widest uppercase text-black/30">Loading editor…</div> },
+);
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -1742,6 +1748,135 @@ function SubscribersSection({
   );
 }
 
+// ─── Section: Send Newsletter ─────────────────────────────────────────────────
+
+function SendNewsletterSection({ subscriberCount }: { subscriberCount: number }) {
+  const [subject, setSubject] = useState('');
+  const [html, setHtml] = useState('');
+  const [sending, setSending] = useState(false);
+  const [result, setResult] = useState<{ sent: number; failed: number; total: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
+
+  const handleSend = async () => {
+    if (!subject.trim() || !html.trim() || html === '<p></p>') return;
+    setSending(true);
+    setError(null);
+    setResult(null);
+    try {
+      const res = await fetch('/api/newsletter/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject, html }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setResult(data);
+        setConfirmed(false);
+      } else {
+        setError(data.error ?? 'Failed to send newsletter.');
+      }
+    } catch (e) {
+      setError('Network error. Please try again.');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const ready = subject.trim().length > 0 && html.trim().length > 0 && html !== '<p></p>';
+
+  return (
+    <>
+      <SectionHeading
+        title="Send Newsletter"
+        description={`Compose and broadcast to ${subscriberCount} subscriber${subscriberCount !== 1 ? 's' : ''}. Sent from info@airfreegroup.com.au.`}
+      />
+
+      {result && (
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-[2px]">
+          <div className="font-mono text-[0.6rem] tracking-widest uppercase text-green-700 mb-1">Newsletter Sent</div>
+          <p className="text-sm text-green-800">
+            ✓ {result.sent} delivered · {result.failed} failed · {result.total} total
+          </p>
+          <button
+            onClick={() => { setResult(null); setSubject(''); setHtml(''); setConfirmed(false); }}
+            className="mt-3 text-[0.6rem] font-mono uppercase tracking-widest text-green-600 hover:text-green-800 underline"
+          >
+            Compose another →
+          </button>
+        </div>
+      )}
+
+      {error && (
+        <div className="mb-5 p-3.5 bg-red-50 border border-red-200 rounded-[2px] text-xs text-red-700">
+          {error}
+        </div>
+      )}
+
+      {!result && (
+        <>
+          {/* Subject */}
+          <div className="mb-5">
+            <label className={LABEL_CLS}>Email Subject *</label>
+            <input
+              value={subject}
+              onChange={e => setSubject(e.target.value)}
+              placeholder="e.g. Airfree Geospatial — Project Update May 2026"
+              className={INPUT_CLS}
+            />
+          </div>
+
+          {/* Body */}
+          <div className="mb-6">
+            <label className={LABEL_CLS}>Email Body *</label>
+            <RichTextEditor value={html} onChange={setHtml} />
+          </div>
+
+          {/* Send controls */}
+          {!confirmed ? (
+            <button
+              onClick={() => setConfirmed(true)}
+              disabled={!ready || subscriberCount === 0}
+              className="px-5 py-2.5 bg-[#0A1628] text-white text-xs font-mono uppercase tracking-widest hover:opacity-85 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              {subscriberCount === 0 ? 'No subscribers' : `Preview Send → ${subscriberCount} recipients`}
+            </button>
+          ) : (
+            <div className="border border-amber-200 bg-amber-50 p-4 rounded-[2px] flex items-start gap-4">
+              <div className="flex-1">
+                <p className="text-xs font-mono uppercase tracking-widest text-amber-700 mb-1">Confirm broadcast</p>
+                <p className="text-sm text-amber-800">
+                  Send <strong>&ldquo;{subject}&rdquo;</strong> to <strong>{subscriberCount}</strong> subscriber{subscriberCount !== 1 ? 's' : ''}? This cannot be undone.
+                </p>
+              </div>
+              <div className="flex gap-2 shrink-0">
+                <button
+                  onClick={() => setConfirmed(false)}
+                  className="px-3 py-1.5 text-xs font-mono uppercase tracking-widest border border-black/10 bg-white hover:bg-black/5"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSend}
+                  disabled={sending}
+                  className="px-4 py-1.5 bg-[#0A1628] text-white text-xs font-mono uppercase tracking-widest hover:opacity-85 disabled:opacity-50 flex items-center gap-2"
+                >
+                  {sending ? (
+                    <>
+                      <span className="inline-block w-3 h-3 border border-white/40 border-t-white rounded-full animate-spin"/>
+                      Sending…
+                    </>
+                  ) : 'Send Now'}
+                </button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </>
+  );
+}
+
 const NAV_SECTIONS = [
   { id: 'company',    label: 'Company Info' },
   { id: 'hero',       label: 'Hero Slides' },
@@ -1752,6 +1887,7 @@ const NAV_SECTIONS = [
   { id: 'builder',    label: 'Page Builder' },
   { id: 'enquiries',   label: 'Enquiries' },
   { id: 'subscribers', label: 'Subscribers' },
+  { id: 'compose',     label: 'Send Newsletter' },
   { id: 'about',       label: 'About Section' },
   { id: 'locations',  label: 'Locations' },
   { id: 'footer',     label: 'Footer' },
@@ -2493,6 +2629,9 @@ export default function AdminPage() {
                 loading={loadingSubscribers}
                 onRefresh={fetchSubscribers}
               />
+            )}
+            {activeSection === 'compose' && (
+              <SendNewsletterSection subscriberCount={subscribers.length} />
             )}
           </div>
         </div>
