@@ -197,10 +197,8 @@ export default function TechnologyPage() {
   return (
     <>
       <PageHero
-        label="Technology Stack"
-        title="Technical Platform & Tooling"
-        subtitle="A register of the spatial platforms, databases, analytical tools, and programming environments underpinning Airfree Geospatial's enterprise service delivery."
         imageKey="technology"
+        pageKey="technology"
       />
 
       {TECH_CATEGORIES.map((cat, i) => {

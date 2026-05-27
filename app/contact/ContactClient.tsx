@@ -98,10 +98,8 @@ export default function ContactClient() {
     <>
       {/* Hero */}
       <PageHero
-        label="Contact"
-        title="Get in Touch"
-        subtitle="Project enquiries, capability statement requests, and general information. Response within two business days."
         imageKey="contact"
+        pageKey="contact"
       />
 
       {/* Contact + Form */}

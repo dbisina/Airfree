@@ -40,10 +40,8 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        label="About"
-        title="About Airfree Geospatial"
-        subtitle="Mission, philosophy, and the institutional framework that defines our enterprise geospatial consultancy."
         imageKey="about"
+        pageKey="about"
       />
 
       {/* Mission */}

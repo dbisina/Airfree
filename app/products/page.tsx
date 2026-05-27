@@ -81,10 +81,8 @@ export default function ProductsPage() {
   return (
     <>
       <PageHero
-        label="Product Suite"
-        title="Geospatial Products & Platforms"
-        subtitle="Engineered spatial platforms and subscriptions for government, utilities, and enterprise organisations."
         imageKey="products"
+        pageKey="products"
       />
 
       {/* Products grid */}

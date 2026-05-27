@@ -6,20 +6,18 @@ import { RevealOnScroll } from '@/components/ui/RevealOnScroll';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { useCMS } from '@/lib/useCMS';
-import { CMS_DEFAULTS } from '@/lib/cms-store';
+import { CMS_DEFAULTS } from '@/lib/cms-store'; // used for projects fallback
 
 export default function ProjectsPage() {
   const cms = useCMS();
-  const pageContent = cms.page_content?.projects ?? CMS_DEFAULTS.page_content.projects;
-  const projects = cms.projects?.length ? cms.projects : CMS_DEFAULTS.projects;
+  // Use Array.isArray (not .length) so an intentionally emptied list stays empty
+  const projects = Array.isArray(cms.projects) ? cms.projects : CMS_DEFAULTS.projects;
 
   return (
     <>
       <PageHero
-        label={pageContent.label}
-        title={pageContent.title}
-        subtitle={pageContent.subtitle}
         imageKey="projects"
+        pageKey="projects"
       />
 
       {/* Confidentiality note */}

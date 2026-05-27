@@ -258,39 +258,54 @@ export const CMS_DEFAULTS: CMSContent = {
   },
 };
 
+/**
+ * Merge any partial/legacy CMS payload with defaults.
+ * - Deep-merges nested objects (footer, page_content, typography, page_sections, locations).
+ * - Respects empty arrays for projects/wms_layers (so admin deletions are visible).
+ * - Falls back to defaults for services when missing/empty (business requires ≥1 service).
+ */
+export function mergeWithDefaults(data: Partial<CMSContent>): CMSContent {
+  return {
+    ...CMS_DEFAULTS,
+    ...data,
+    company: { ...CMS_DEFAULTS.company, ...(data.company || {}) },
+    hero: data.hero
+      ? { ...CMS_DEFAULTS.hero, ...data.hero, slides: Array.isArray(data.hero.slides) && data.hero.slides.length > 0 ? data.hero.slides : CMS_DEFAULTS.hero.slides }
+      : CMS_DEFAULTS.hero,
+    footer: {
+      ...CMS_DEFAULTS.footer,
+      ...(data.footer || {}),
+      social: {
+        ...CMS_DEFAULTS.footer.social,
+        ...((data.footer as { social?: Record<string, string> })?.social || {}),
+      },
+    },
+    page_content: { ...CMS_DEFAULTS.page_content, ...(data.page_content || {}) },
+    about_intro:  { ...CMS_DEFAULTS.about_intro,  ...(data.about_intro  || {}) },
+    locations: {
+      ...CMS_DEFAULTS.locations,
+      ...(data.locations || {}),
+      adelaide:  { ...CMS_DEFAULTS.locations.adelaide,  ...((data.locations as CMSContent['locations'])?.adelaide  || {}) },
+      perth:     { ...CMS_DEFAULTS.locations.perth,     ...((data.locations as CMSContent['locations'])?.perth     || {}) },
+      melbourne: { ...CMS_DEFAULTS.locations.melbourne, ...((data.locations as CMSContent['locations'])?.melbourne || {}) },
+    },
+    typography:    { ...CMS_DEFAULTS.typography,    ...(data.typography    || {}) },
+    page_photos:   { ...CMS_DEFAULTS.page_photos,   ...(data.page_photos   || {}) },
+    // Services: fall back to defaults when missing/empty (pages must show ≥1 service)
+    services:   Array.isArray(data.services)   && data.services.length   > 0 ? data.services   : CMS_DEFAULTS.services,
+    // Projects: respect empty array — admin intentionally deletes all
+    projects:   Array.isArray(data.projects)   ? data.projects   : CMS_DEFAULTS.projects,
+    wms_layers: Array.isArray(data.wms_layers) ? data.wms_layers : CMS_DEFAULTS.wms_layers,
+    page_sections: { ...CMS_DEFAULTS.page_sections, ...(data.page_sections || {}) },
+  };
+}
+
 export function readCMS(): CMSContent {
   if (typeof window === 'undefined') return CMS_DEFAULTS;
   try {
     const stored = localStorage.getItem(CMS_KEY);
     if (!stored) return CMS_DEFAULTS;
-    const parsed = JSON.parse(stored) as Partial<CMSContent>;
-    return {
-      ...CMS_DEFAULTS,
-      ...parsed,
-      footer: {
-        ...CMS_DEFAULTS.footer,
-        ...(parsed.footer || {}),
-        social: {
-          ...CMS_DEFAULTS.footer.social,
-          ...((parsed.footer as { social?: Record<string, string> })?.social || {}),
-        },
-      },
-      page_content: {
-        ...CMS_DEFAULTS.page_content,
-        ...(parsed.page_content || {}),
-      },
-      typography: {
-        ...CMS_DEFAULTS.typography,
-        ...(parsed.typography || {}),
-      },
-      services:   Array.isArray(parsed.services)   ? parsed.services   : CMS_DEFAULTS.services,
-      projects:   Array.isArray(parsed.projects)   ? parsed.projects   : CMS_DEFAULTS.projects,
-      wms_layers: Array.isArray(parsed.wms_layers) ? parsed.wms_layers : CMS_DEFAULTS.wms_layers,
-      page_sections: {
-        ...CMS_DEFAULTS.page_sections,
-        ...(parsed.page_sections || {}),
-      },
-    } as CMSContent;
+    return mergeWithDefaults(JSON.parse(stored) as Partial<CMSContent>);
   } catch {
     return CMS_DEFAULTS;
   }

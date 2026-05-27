@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { redis, CMS_LIVE_KEY, CMS_HISTORY_KEY, MAX_HISTORY } from '@/lib/redis';
-import { CMS_DEFAULTS, CMSContent } from '@/lib/cms-store';
+import { CMS_DEFAULTS, CMSContent, mergeWithDefaults } from '@/lib/cms-store';
 
 import { isAuthenticated } from '@/lib/auth-util';
 
-// GET — return live content
+// GET — return live content, merged with defaults so missing/legacy fields never crash the client
 export async function GET() {
   try {
-    const data = await redis.get<CMSContent>(CMS_LIVE_KEY);
-    return NextResponse.json(data ?? CMS_DEFAULTS);
+    const data = await redis.get<Partial<CMSContent>>(CMS_LIVE_KEY);
+    return NextResponse.json(data ? mergeWithDefaults(data) : CMS_DEFAULTS);
   } catch {
     return NextResponse.json(CMS_DEFAULTS);
   }

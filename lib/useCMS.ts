@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { CMSContent, CMS_DEFAULTS, readCMS } from './cms-store';
+import { CMSContent, CMS_DEFAULTS, readCMS, mergeWithDefaults } from './cms-store';
 
 /**
  * Fetches live CMS content from Redis via /api/cms (cross-device source of truth).
@@ -15,8 +15,8 @@ export function useCMS(): CMSContent {
       try {
         const res = await fetch('/api/cms', { cache: 'no-store' });
         if (res.ok) {
-          const remote = (await res.json()) as CMSContent;
-          setData(remote);
+          const raw = await res.json();
+          setData(mergeWithDefaults(raw));
           return;
         }
       } catch {

@@ -8,17 +8,28 @@ type PageImageKey = 'about' | 'services' | 'contact' | 'industries' | 'products'
 
 interface Props {
   label?: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   breadcrumb?: { label: string; href: string };
   imageKey?: PageImageKey;
   /** Direct image path/URL — takes priority over imageKey CMS lookup */
   imageUrl?: string;
+  /**
+   * When set, reads label/title/subtitle from cms.page_content[pageKey] as defaults.
+   * Explicit props still override CMS values.
+   */
+  pageKey?: PageImageKey;
 }
 
-export function PageHero({ label, title, subtitle, breadcrumb, imageKey, imageUrl }: Props) {
+export function PageHero({ label, title, subtitle, breadcrumb, imageKey, imageUrl, pageKey }: Props) {
   const cms = useCMS();
   const imageSrc = imageUrl || (imageKey ? (cms.page_photos[imageKey] || null) : null);
+
+  // CMS page_content supplies defaults when explicit props aren't provided
+  const cmsPage = pageKey ? cms.page_content[pageKey] : null;
+  const effectiveLabel    = label    ?? cmsPage?.label    ?? undefined;
+  const effectiveTitle    = title    ?? cmsPage?.title    ?? '';
+  const effectiveSubtitle = subtitle ?? cmsPage?.subtitle ?? undefined;
 
   return (
     <section className="relative pt-28 pb-16 px-4 sm:px-8 md:px-10 lg:px-24 overflow-hidden">
@@ -51,16 +62,16 @@ export function PageHero({ label, title, subtitle, breadcrumb, imageKey, imageUr
             </Link>
           </div>
         )}
-        {label && <SectionLabel className="text-white/55 mb-5">{label}</SectionLabel>}
+        {effectiveLabel && <SectionLabel className="text-white/55 mb-5">{effectiveLabel}</SectionLabel>}
         <h1
           className="font-serif font-bold text-white leading-[1.05] mb-6"
           style={{ fontSize: 'clamp(1.5rem, 5vw, 4rem)' }}
         >
-          {title}
+          {effectiveTitle}
         </h1>
-        {subtitle && (
+        {effectiveSubtitle && (
           <p className="text-white/60 max-w-2xl leading-relaxed text-sm sm:text-base md:text-lg">
-            {subtitle}
+            {effectiveSubtitle}
           </p>
         )}
       </div>

@@ -247,10 +247,8 @@ export default function IndustriesPage() {
   return (
     <>
       <PageHero
-        label="Industry Sectors"
-        title="Sectors We Support"
-        subtitle="Enterprise spatial intelligence across Australia's most demanding institutional and industrial sectors."
         imageKey="industries"
+        pageKey="industries"
       />
 
       {/* Stats strip */}

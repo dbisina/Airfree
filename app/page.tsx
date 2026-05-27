@@ -7,8 +7,8 @@ import { HeroSlider } from '@/components/sections/HeroSlider';
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
-import { SERVICES } from '@/lib/constants';
 import { useCMS } from '@/lib/useCMS';
+import { CMS_DEFAULTS } from '@/lib/cms-store';
 
 const PHOTO_PANELS = [
   { src: 'https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=800&q=80', label: 'Drone & Photogrammetry' },
@@ -77,6 +77,13 @@ function PhotoStrip() {
 }
 
 function ServicePillars() {
+  const cms = useCMS();
+  // CMS services — fall back to defaults only when none configured
+  const services = Array.isArray(cms.services) && cms.services.length > 0
+    ? cms.services
+    : CMS_DEFAULTS.services;
+  const preview = services.slice(0, 4);
+
   return (
     <section className="py-20 md:py-36 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
@@ -87,7 +94,7 @@ function ServicePillars() {
             </RevealOnScroll>
             <RevealOnScroll delay={0.06}>
               <h2 className="font-serif text-ink leading-[1.08]" style={{ fontSize: 'clamp(1.6rem, 5vw, 4.2rem)' }}>
-                Seven Enterprise<br />Geospatial Capabilities
+                {services.length} Enterprise<br />Geospatial {services.length === 1 ? 'Capability' : 'Capabilities'}
               </h2>
             </RevealOnScroll>
           </div>
@@ -102,57 +109,65 @@ function ServicePillars() {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
         <RevealOnScroll delay={0.08}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-            {SERVICES.slice(0, 4).map((service) => (
-              <Link
-                key={service.slug}
-                href={`/services/${service.slug}`}
-                className="group relative h-60 sm:h-64 md:h-80 overflow-hidden bg-navy block"
-              >
-                <Image
-                  src={service.image}
-                  alt={service.shortTitle}
-                  fill
-                  className="object-cover opacity-40 group-hover:opacity-55 group-hover:scale-105 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
-                  sizes="(max-width: 639px) 100vw, (max-width: 1279px) 50vw, 640px"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/55 to-navy/15" />
-                <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-7 md:p-8">
-                  <div className="flex items-start justify-between">
-                    <span className="font-mono text-[0.5rem] tracking-[0.22em] text-white/30 uppercase">
-                      {service.number}
-                    </span>
-                    <div className="w-7 h-7 rounded-full border border-white/15 group-hover:border-brand-blue group-hover:bg-brand-blue flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
-                      <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                        <path d="M2 7L7 2M7 2H3M7 2V6" stroke="white" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+            {preview.map((service) => {
+              // Tags: CMS = comma-separated string, constants = string[]
+              const tags: string[] = typeof service.tags === 'string'
+                ? (service.tags as string).split(',').map((t: string) => t.trim()).filter(Boolean)
+                : (service.tags as unknown as string[]);
+              return (
+                <Link
+                  key={service.slug}
+                  href={`/services/${service.slug}`}
+                  className="group relative h-60 sm:h-64 md:h-80 overflow-hidden bg-navy block"
+                >
+                  <Image
+                    src={service.image || '/images/gisinfra.jpg'}
+                    alt={service.shortTitle}
+                    fill
+                    className="object-cover opacity-40 group-hover:opacity-55 group-hover:scale-105 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                    sizes="(max-width: 639px) 100vw, (max-width: 1279px) 50vw, 640px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/55 to-navy/15" />
+                  <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-7 md:p-8">
+                    <div className="flex items-start justify-between">
+                      <span className="font-mono text-[0.5rem] tracking-[0.22em] text-white/30 uppercase">
+                        {service.number}
+                      </span>
+                      <div className="w-7 h-7 rounded-full border border-white/15 group-hover:border-brand-blue group-hover:bg-brand-blue flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                          <path d="M2 7L7 2M7 2H3M7 2V6" stroke="white" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="mb-3 flex flex-wrap gap-1.5">
+                        {tags.slice(0, 2).map(tag => (
+                          <span key={tag} className="font-mono text-[0.45rem] uppercase tracking-widest px-2 py-0.5 border border-white/15 text-white/40">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <h3
+                        className="font-serif text-white leading-snug group-hover:text-blue-100 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                        style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.2rem)' }}
+                      >
+                        {service.title}
+                      </h3>
                     </div>
                   </div>
-                  <div>
-                    <div className="mb-3 flex flex-wrap gap-1.5">
-                      {service.tags.slice(0, 2).map(tag => (
-                        <span key={tag} className="font-mono text-[0.45rem] uppercase tracking-widest px-2 py-0.5 border border-white/15 text-white/40">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <h3
-                      className="font-serif text-white leading-snug group-hover:text-blue-100 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
-                      style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.2rem)' }}
-                    >
-                      {service.title}
-                    </h3>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.15} className="mt-10 flex items-center gap-6">
           <Button href="/services" variant="outline">View All Services</Button>
-          <span className="font-mono text-[0.58rem] tracking-widest uppercase text-ink-3">
-            +{SERVICES.length - 4} more capabilities
-          </span>
+          {services.length > 4 && (
+            <span className="font-mono text-[0.58rem] tracking-widest uppercase text-ink-3">
+              +{services.length - 4} more capabilities
+            </span>
+          )}
         </RevealOnScroll>
       </div>
     </section>
@@ -160,25 +175,24 @@ function ServicePillars() {
 }
 
 function AboutSection() {
+  const cms = useCMS();
+  const ai = cms.about_intro;
+  const photo = ai.photo || 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=900&q=80';
+
   return (
     <section className="py-20 md:py-36 bg-surface overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-10 lg:px-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 lg:gap-24 items-center">
           <div>
-            <RevealOnScroll><SectionLabel className="mb-5">About the Practice</SectionLabel></RevealOnScroll>
+            <RevealOnScroll><SectionLabel className="mb-5">{ai.tagline || 'About the Practice'}</SectionLabel></RevealOnScroll>
             <RevealOnScroll delay={0.06}>
               <h2 className="font-serif text-ink leading-[1.08] mb-7" style={{ fontSize: 'clamp(1.5rem, 4vw, 3.6rem)' }}>
-                Spatial Intelligence<br />at Institutional Scale
+                {ai.heading || 'Spatial Intelligence at Institutional Scale'}
               </h2>
             </RevealOnScroll>
             <RevealOnScroll delay={0.1}>
-              <p className="text-base text-ink-2 leading-relaxed mb-5">
-                Airfree Geospatial Pty Ltd is a specialised geospatial intelligence and infrastructure analytics consultancy. We exist to deliver enterprise-grade spatial solutions to organisations whose decisions depend on accurate, verifiable, and spatially referenced information.
-              </p>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.14}>
               <p className="text-base text-ink-2 leading-relaxed mb-10">
-                Our work spans federal and state government agencies, major utility networks, mining and resources operations, and critical engineering infrastructure.
+                {ai.body || 'Airfree Geospatial Pty Ltd is a specialised geospatial intelligence and infrastructure analytics consultancy.'}
               </p>
             </RevealOnScroll>
             <RevealOnScroll delay={0.18}>
@@ -190,7 +204,7 @@ function AboutSection() {
             <div className="ring-1 ring-black/[0.06]">
               <div className="relative aspect-[4/3] md:aspect-[3/2] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=900&q=80"
+                  src={photo}
                   alt="Aerial view of urban infrastructure"
                   fill
                   className="object-cover"
