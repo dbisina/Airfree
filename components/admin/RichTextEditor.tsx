@@ -306,21 +306,100 @@ function ImagePopover({ onConfirm, onClose }: {
   onConfirm: (url: string, alt: string) => void;
   onClose: () => void;
 }) {
+  const [tab, setTab] = useState<'file' | 'url'>('file');
   const [url, setUrl] = useState('https://');
   const [alt, setAlt] = useState('');
+  const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
   const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) onClose(); };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
   }, [onClose]);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    setLoading(true);
+    try {
+      const form = new FormData();
+      form.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: form });
+      const data = await res.json();
+      if (data.ok && data.url) {
+        setPreview(data.url);
+      } else {
+        alert(data.error ?? 'Upload failed.');
+      }
+    } catch {
+      alert('Upload failed. Check your connection.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleInsert = () => {
+    if (tab === 'file' && preview) { onConfirm(preview, alt); onClose(); }
+    else if (tab === 'url' && url.startsWith('http')) { onConfirm(url, alt); onClose(); }
+  };
+
+  const canInsert = tab === 'file' ? !!preview : url.startsWith('http');
+
   return (
-    <div ref={ref} className="absolute top-full mt-1 left-0 z-50 bg-white border border-black/10 shadow-[0_4px_24px_rgba(0,0,0,0.10)] p-3 rounded-[3px] min-w-[300px] flex flex-col gap-2">
+    <div ref={ref} className="absolute top-full mt-1 left-0 z-50 bg-white border border-black/10 shadow-[0_4px_24px_rgba(0,0,0,0.10)] p-3 rounded-[3px] min-w-[320px] flex flex-col gap-2.5">
       <p className="font-mono text-[10px] uppercase tracking-widest text-black/40">Insert Image</p>
-      <input value={url} onChange={e => setUrl(e.target.value)} placeholder="Image URL" className="border border-black/[0.10] bg-[#FAFAF9] px-2 py-1.5 text-xs focus:outline-none focus:border-[#4A86B8] rounded-[2px]"/>
+
+      {/* Tab switcher */}
+      <div className="flex border border-black/[0.08] rounded-[2px] overflow-hidden">
+        {(['file', 'url'] as const).map(t => (
+          <button
+            key={t}
+            type="button"
+            onMouseDown={e => { e.preventDefault(); setTab(t); setPreview(null); }}
+            className={`flex-1 py-1 text-[10px] font-mono uppercase tracking-widest transition-colors ${tab === t ? 'bg-[#0A1628] text-white' : 'text-black/40 hover:bg-black/5'}`}
+          >
+            {t === 'file' ? 'From Device' : 'From URL'}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'file' ? (
+        <>
+          <div
+            onMouseDown={e => { e.preventDefault(); fileRef.current?.click(); }}
+            className="border border-dashed border-black/20 rounded-[2px] h-24 flex flex-col items-center justify-center cursor-pointer hover:border-[#4A86B8]/50 hover:bg-[#4A86B8]/[0.03] transition-colors"
+          >
+            {loading ? (
+              <span className="text-[10px] font-mono text-black/30">Loading…</span>
+            ) : preview ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={preview} alt="preview" className="h-full w-full object-contain p-1"/>
+            ) : (
+              <>
+                <span className="text-xl text-black/20 mb-1">↑</span>
+                <span className="text-[10px] font-mono text-black/35">Click to pick image</span>
+                <span className="text-[9px] font-mono text-black/20 mt-0.5">PNG, JPG, GIF, WebP, SVG</span>
+              </>
+            )}
+          </div>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile}/>
+        </>
+      ) : (
+        <input
+          value={url}
+          onChange={e => setUrl(e.target.value)}
+          placeholder="https://..."
+          className="border border-black/[0.10] bg-[#FAFAF9] px-2 py-1.5 text-xs focus:outline-none focus:border-[#4A86B8] rounded-[2px]"
+        />
+      )}
+
       <input value={alt} onChange={e => setAlt(e.target.value)} placeholder="Alt text (optional)" className="border border-black/[0.10] bg-[#FAFAF9] px-2 py-1.5 text-xs focus:outline-none focus:border-[#4A86B8] rounded-[2px]"/>
+
       <div className="flex gap-1.5">
-        <button type="button" onMouseDown={e => { e.preventDefault(); if (url.startsWith('http')) { onConfirm(url, alt); onClose(); } }} className="px-3 py-1 bg-[#0A1628] text-white text-[10px] font-mono rounded-[2px] hover:opacity-80">Insert</button>
+        <button type="button" onMouseDown={e => { e.preventDefault(); handleInsert(); }} disabled={!canInsert} className="px-3 py-1 bg-[#0A1628] text-white text-[10px] font-mono rounded-[2px] hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed">Insert</button>
         <button type="button" onMouseDown={e => { e.preventDefault(); onClose(); }} className="px-3 py-1 border border-black/10 text-[10px] font-mono rounded-[2px] hover:bg-black/5">Cancel</button>
       </div>
     </div>
