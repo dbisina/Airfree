@@ -468,16 +468,17 @@ export function RichTextEditor({
           {/* Block type */}
           <Group>
             {(['¶','H1','H2','H3','H4'] as const).map(t => {
-              const lvl = t === '¶' ? 0 : parseInt(t[1]) as 1|2|3|4;
+              const lvl = (t === '¶' ? 1 : parseInt(t[1])) as 1|2|3|4;
+              const isPara = t === '¶';
               return (
                 <Btn
                   key={t}
-                  onClick={() => t === '¶'
+                  onClick={() => isPara
                     ? editor.chain().focus().setParagraph().run()
                     : editor.chain().focus().toggleHeading({ level: lvl }).run()
                   }
-                  active={t === '¶' ? editor.isActive('paragraph') : editor.isActive('heading', { level: lvl })}
-                  title={t === '¶' ? 'Paragraph (Ctrl+Alt+0)' : `Heading ${lvl}`}
+                  active={isPara ? editor.isActive('paragraph') : editor.isActive('heading', { level: lvl })}
+                  title={isPara ? 'Paragraph (Ctrl+Alt+0)' : `Heading ${lvl}`}
                 >
                   {t}
                 </Btn>
